@@ -6,7 +6,7 @@ import { dirname, extname, join, normalize, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 
-// On a host such as Railway, PORT is set and the server listens on every interface.
+// On a host that sets PORT (most container hosts), the server listens on every interface.
 const { values } = parseArgs({ options: {
   host: { type: 'string', default: process.env.PORT ? '0.0.0.0' : '127.0.0.1' },
   port: { type: 'string', default: process.env.PORT ?? '5700' },
