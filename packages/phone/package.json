@@ -16,16 +16,36 @@
     "smart-glasses"
   ],
   "exports": {
-    ".": "./src/index.ts",
-    "./dev": "./src/dev.ts"
+    ".": {
+      "@maticsh/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./dev": {
+      "@maticsh/source": "./src/dev.ts",
+      "types": "./dist/dev.d.ts",
+      "default": "./dist/dev.js"
+    },
+    "./shell.css": {
+      "@maticsh/source": "./src/shell.css",
+      "default": "./dist/shell.css"
+    }
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "files": [
-    "src"
+    "dist",
+    "!dist/.tsbuildinfo",
+    "README.md",
+    "LICENSE"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
+    "build": "node ../../scripts/build-package.mjs",
+    "prepack": "npm run build",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },

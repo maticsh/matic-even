@@ -53,10 +53,11 @@ Keep every outside URL off the bundle. Give the app one origin to talk to, and l
 
 ## Run the check
 
-A scanner ships in this repo at `scripts/urls.ts`. It needs Node 24 and has no dependencies. Run it on your app folder after `vite build`, before you pack:
+A scanner ships in `@maticsh/testing` as the `maticsh-urls` bin, and in this repo at `scripts/urls.ts`. The repo script needs Node 24 and no install. Run either on your app folder after `vite build`, before you pack:
 
 ```sh
-node scripts/urls.ts <app-folder>
+npx maticsh-urls <app-folder>        # in an app with @maticsh/testing installed
+node scripts/urls.ts <app-folder>    # in this repo
 ```
 
 It reads the whitelist from `<app-folder>/app.json`, scans `<app-folder>/dist` and `<app-folder>/src`, and exits with code 1 on any error. It checks five rules:

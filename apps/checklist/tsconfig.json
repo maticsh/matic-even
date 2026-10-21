@@ -5,6 +5,9 @@
     "moduleResolution": "Bundler",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["vite/client"],
+    // Inside the matic-even repo, type @maticsh/* from their source. Installed from npm they ship no source,
+    // and TypeScript moves on to their built .d.ts files.
+    "customConditions": ["@maticsh/source"],
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "allowImportingTsExtensions": true,

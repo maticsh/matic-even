@@ -56,6 +56,7 @@ In the Even app, open the **Even Hub** tab, tap **Scan QR**, and scan the code. 
 | `npm run sim` | Opens the app in Even's simulator (needs `npm run dev` running) |
 | `npm test` | Runs the tests on `FakeBridge` |
 | `npm run build` | Typechecks, then builds into `dist/` |
+| `npm run urls` | The URL scan that store review runs, on `dist/` |
 | `npm run pack` | Builds, then packs `checklist.ehpk` |
 
 ### The dev preview
@@ -73,25 +74,19 @@ On the real page, `?demo` starts from the example lists in their own storage (de
 
 ## Use it as a template
 
-The `@maticsh/*` packages are not on npm yet. Until they are, build your app inside this repo: copy `apps/checklist` to `apps/<your-app>`, and npm links the packages from the workspace.
-
-Once the packages are published, start a new app outside the repo:
+The `@maticsh/*` packages are on npm at 0.1.0, and this folder declares every package it needs, so a copy runs on its own. Node 24 or later:
 
 ```sh
-npx degit maticsh/matic-even/apps/checklist my-app
-npx degit maticsh/matic-even/scripts my-app/scripts
-cd my-app
-npm i -D typescript@5.9.3 vite@8.3.4 vitest@5.0.5 @evenrealities/evenhub-cli@0.1.14 @evenrealities/evenhub-simulator@0.9.5
+npx degit maticsh/matic-even/apps/checklist my-app && cd my-app && npm install
 ```
 
 Then:
 
-1. Swap the workspace dependencies for the published `@maticsh/*` versions in `package.json`.
-2. Change `../../scripts/` to `./scripts/` in `vite.config.ts` and in the `qr` script in `package.json`.
-3. Set your own `package_id` and `name` in `app.json`, and your own `name` in `package.json`.
-4. Run `npm install`, `npm test` and `npm run pack`.
+1. Set your own `package_id` and `name` in `app.json`, your own `name` in `package.json`, and your own `.ehpk` name in the `pack` script.
+2. Run `npm test`, then `npm run dev` and `npm run qr`.
+3. Before you submit, run `npm run build`, then `npm run urls`: the URL scan that store review runs ([docs/review/urls.md](../../docs/review/urls.md)). Then `npm run pack`.
 
-Before you submit, build and run the URL scan: `node scripts/urls.ts .` ([docs/review/urls.md](../../docs/review/urls.md)).
+To build an app inside this repo instead, copy the folder to `apps/<your-app>`. npm links the packages from the workspace, and the app loads their TypeScript source, so a change to a package shows without a build.
 
 ## License
 

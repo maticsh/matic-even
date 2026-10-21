@@ -3,7 +3,7 @@
  *
  * Review scans the bundle for URL-shaped strings and flags any that is not on the whitelist, even a
  * string literal the app never calls (docs/review/urls.md). Pure: the caller reads the files
- * (`scripts/urls.ts` in this repo does it for a built app).
+ * (the `maticsh-urls` bin does it for a built app).
  */
 export type UrlRule =
   | 'url-not-whitelisted'

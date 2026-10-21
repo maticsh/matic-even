@@ -6,13 +6,11 @@ Each part is a plain function that returns an HTML string, so it renders in a pa
 
 ## Install
 
-The package is not on npm yet. Use it from this repo's npm workspace:
-
 ```sh
-npm ci                 # at the repo root
+npm i -E @maticsh/phone@0.1.0
 ```
 
-Then add `"@maticsh/phone": "0.1.0"` to your app's `dependencies`. It ships TypeScript and CSS source, so build your app with Vite or another bundler that reads both.
+It ships ES modules with type declarations, and imports its stylesheets as CSS files, so build your app with Vite or another bundler that handles a CSS import. The stylesheet is also at `@maticsh/phone/shell.css`. Vitest needs `test: { server: { deps: { inline: [/@maticsh\/phone/] } } }` in `vite.config.ts` to load the package, so that Vite handles the CSS (`apps/checklist/vite.config.ts` has it). Inside this repo's npm workspace, apps load its source instead (the `@maticsh/source` export condition).
 
 ## Exports
 

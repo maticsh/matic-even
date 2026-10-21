@@ -67,7 +67,7 @@ The phone loads the probe from your computer, so the QR code and the hot-reload 
 
 - Set `DEV_PORT` to use a port other than 5199. Set it for both commands.
 
-`scripts/host.ts` at the repo root picks the address. Every app in this repo uses it.
+`devHost` in `@maticsh/testing/dev` picks the address. Every app in this repo uses it.
 
 To check the address, open `http://<address>:5199` in the phone's browser. The probe's phone page should load.
 

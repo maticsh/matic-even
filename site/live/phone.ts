@@ -8,7 +8,7 @@ import {
   showSliderValue, slider, sliderCard, stripHtml, tabBar, toggleRow, valueRow, wide,
   type ButtonProps, type GlassScreen, type Handlers, type Tab,
 } from '@maticsh/phone'
-import shell from '../../packages/phone/src/shell.css?inline'
+import shell from '@maticsh/phone/shell.css?inline'
 import host from './phone-host.css?inline'
 import { PARTS, type PartId } from './catalog.ts'
 

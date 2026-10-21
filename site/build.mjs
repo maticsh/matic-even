@@ -7,13 +7,14 @@
 //   - the AI section, from the skills' SKILL.md files, the plugin manifests and docs/ai/setup.md
 // Output: site/dist/index.html, site/dist/assets/, and beside the page setup.md, setup.txt (docs/ai/setup.md as it
 // is) and llms.txt (an index of the docs for AI tools). The build fails on a broken link or anchor.
-// Usage: node site/build.mjs   (or `npm run build` in site/), after `npm ci` at the repo root.
+// Usage: npm run build --workspace site, after `npm ci` at the repo root. By hand: node --conditions=@maticsh/source site/build.mjs
+// (the condition loads @maticsh/* from their TypeScript source, so the page never waits on a package build).
 import { execFileSync } from 'node:child_process'
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join, posix } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Marked } from 'marked'
-import { build as vite } from 'vite'
+import { build as vite, defaultClientConditions } from 'vite'
 import { LINE_HEIGHT } from '@maticsh/glasses'
 import { PARTS } from './live/catalog.ts'
 import { border, esc, gridPaths, outline, svg, textBox, textLine } from './lib/draw.mjs'
@@ -339,7 +340,8 @@ async function glassesSpecimens() {
 // Test tools: each sample run with Node, its output shown as printed
 
 function runSample(name) {
-  return execFileSync(process.execPath, [join(SITE, 'samples', `${name}.ts`)], { cwd: SITE, encoding: 'utf8', env: { ...process.env, NO_COLOR: '1' } }).trimEnd()
+  // execArgv passes --conditions=@maticsh/source on to the sample, so it runs the packages' source too.
+  return execFileSync(process.execPath, [...process.execArgv, join(SITE, 'samples', `${name}.ts`)], { cwd: SITE, encoding: 'utf8', env: { ...process.env, NO_COLOR: '1' } }).trimEnd()
 }
 const TOOLS = [
   { id: 'fake-bridge', title: 'FakeBridge', code: 'fake-bridge',
@@ -347,7 +349,7 @@ const TOOLS = [
   { id: 'manifest', title: 'Manifest lint', code: 'manifest',
     use: 'checking `app.json` against the packaging and review rules, in your tests.' },
   { id: 'urls', title: 'URL scan', code: 'urls',
-    use: 'checking a built bundle the way store review does: every URL string must be on the network whitelist. `node scripts/urls.ts apps/<app>` runs it on a build.' },
+    use: 'checking a built bundle the way store review does: every URL string must be on the network whitelist. `npx maticsh-urls` in an app\'s folder runs it on a build.' },
 ]
 
 // The page
@@ -816,6 +818,7 @@ writeFileSync(join(DIST, 'llms.txt'), llmsTxt())
 const PHONE_INDEX = join(ROOT, 'packages/phone/src/index.ts')
 await vite({
   configFile: false, root: SITE, logLevel: 'warn', publicDir: false,
+  resolve: { conditions: ['@maticsh/source', ...defaultClientConditions] },
   plugins: [{
     // The package imports its stylesheet for a whole page. Here it goes into each part's shadow root
     // (live/phone.ts imports it as text), so the page-wide import is left out.

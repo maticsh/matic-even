@@ -6,7 +6,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "node build.mjs",
+    "build": "node --conditions=@maticsh/source build.mjs",
     "serve": "node serve.mjs",
     "capture": "node capture.mjs",
     "typecheck": "tsc --noEmit"

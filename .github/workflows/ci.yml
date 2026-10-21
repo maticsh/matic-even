@@ -14,8 +14,14 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      # The packages' dist/: what npm ships, and what the apps' vite.config.ts and the maticsh-* bins load.
+      # In the repo everything else runs on the packages' TypeScript source.
+      - run: npm run build --workspace packages --if-present
       # Typecheck and test every package and app.
       - run: npm run check
+      # Each package as npm would pack it (npm pack --dry-run). Fails when the files list drops a built file that
+      # exports or bin point at, README.md or LICENSE, or ships src/, tests/ or a tsconfig.
+      - run: node scripts/check-pack.mjs
       # Each app: build, the URL scan that store review runs, then pack the .ehpk.
       - run: npm run build --workspace apps/checklist
       - run: node scripts/urls.ts apps/checklist

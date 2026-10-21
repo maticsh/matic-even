@@ -1,4 +1,5 @@
-private-host:scripts/host.ts
+private-host:packages/testing/src/dev.ts
+private-host:packages/testing/tests/dev.test.ts
 private-host:apps/probe/package.json
 private-host:apps/checklist/package.json
 private-host:apps/checklist/README.md

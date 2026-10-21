@@ -1,5 +1,12 @@
+import { defaultClientConditions, defaultServerConditions } from 'vite'
 import { defineConfig } from 'vitest/config'
 
-// These modules hold no state that one test file could leak into another, so files share workers.
-// It makes the suite several times faster.
-export default defineConfig({ test: { isolate: false } })
+// In this repo @maticsh/* load from their TypeScript source (the "@maticsh/source" export condition), so the
+// tests never wait on a package build.
+export default defineConfig({
+  resolve: { conditions: ['@maticsh/source', ...defaultClientConditions] },
+  ssr: { resolve: { conditions: ['@maticsh/source', ...defaultServerConditions] } },
+  // These modules hold no state that one test file could leak into another, so files share workers.
+  // It makes the suite several times faster.
+  test: { isolate: false },
+})

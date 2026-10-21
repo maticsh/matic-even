@@ -95,7 +95,7 @@ npm run dev            # then, in a second terminal: npm run qr
 
 ## Packages
 
-Building blocks for G2 apps, in `packages/`. They are not on npm yet; use them from this repo's npm workspace.
+Building blocks for G2 apps, in `packages/`, on npm at 0.1.0.
 
 | Package | What it is |
 |---|---|
@@ -114,7 +114,7 @@ The packages and apps are one npm workspace. Node 24 or later.
 ```sh
 npm ci
 npm run check          # typecheck and test every package and app
-npm run build          # build both apps and the site
+npm run build          # build the packages, both apps and the site
 npm run urls           # the URL scan on both builds
 ```
 

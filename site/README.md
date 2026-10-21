@@ -20,7 +20,7 @@ tools. A host should serve `.md` and `.txt` as `text/plain`, so a browser shows 
 
 ## How it builds
 
-`build.mjs` is a Node script. Node runs the packages' TypeScript as it is.
+`build.mjs` is a Node script. `npm run build` runs it with `--conditions=@maticsh/source`, so Node loads the packages' TypeScript source rather than their `dist/`, and runs it as it is.
 
 The page has four numbered sections, each with subsections: 01 Components (glasses UI, phone UI, test tools), 02 Probe
 & findings (the probe app, findings, open questions, store review), 03 AI (skills, the Claude Code plugin, get started

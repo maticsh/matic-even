@@ -72,6 +72,7 @@ npm run check        # typecheck and test every package and app
 ```
 
 - Before you send a pull request, run `npm run check`, then `npm run build`, `node scripts/urls.ts apps/<app>` and `npm run pack` for any app you changed. CI runs the same steps from a fresh clone.
+- In the workspace, the apps, the tests and the site load the packages' TypeScript source (the `@maticsh/source` export condition). `npm ci` also builds each package's `dist/`, which npm ships and which the apps' `vite.config.ts` loads. If you change a package's exports or files, run `npm run pack:check`.
 - Add a test for new logic. The tests run on `FakeBridge` from `@maticsh/testing`, so they need no glasses.
 - Comments say what the code does, and cite a finding (`docs/findings/<topic>.md#hN`) for a hardware trap.
 - Keep URL strings out of app bundles ([docs/review/urls.md](docs/review/urls.md)).

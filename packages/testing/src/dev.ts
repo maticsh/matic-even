@@ -1,7 +1,10 @@
-// The dev server's address, shared by every app's vite.config.ts and by scripts/qr.ts.
-// After a QR sideload the phone loads the app from this machine, so the QR code and the hot-reload
-// socket need an address the phone can reach. No address is hard-coded: set DEV_HOST, or this
-// machine's LAN address is used.
+/**
+ * The dev server's address, for an app's `vite.config.ts` and for the `maticsh-qr` bin. Node only.
+ *
+ * After a QR sideload the phone loads the app from this machine, so the QR code and the hot-reload
+ * socket need an address the phone can reach. No address is hard-coded: set DEV_HOST, or this
+ * machine's LAN address is used.
+ */
 import { networkInterfaces } from 'node:os'
 
 /** The dev server's port: DEV_PORT when it is set, else the app's own default. */

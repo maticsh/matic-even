@@ -6,13 +6,11 @@ It wraps `@evenrealities/even_hub_sdk` 0.0.16. It works in any app that runs in 
 
 ## Install
 
-The package is not on npm yet. Use it from this repo's npm workspace:
-
 ```sh
-npm ci                 # at the repo root
+npm i -E @maticsh/glasses@0.1.0
 ```
 
-Then add `"@maticsh/glasses": "0.1.0"` to your app's `dependencies`. The package ships TypeScript source, so build your app with Vite or another bundler that reads `.ts`.
+It ships ES modules with type declarations. Inside this repo's npm workspace, apps load its TypeScript source instead (the `@maticsh/source` export condition).
 
 ## Exports
 

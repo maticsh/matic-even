@@ -16,21 +16,55 @@
     "smart-glasses"
   ],
   "exports": {
-    ".": "./src/index.ts",
-    "./urls": "./src/urls.ts"
+    ".": {
+      "@maticsh/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./urls": {
+      "@maticsh/source": "./src/urls.ts",
+      "types": "./dist/urls.d.ts",
+      "default": "./dist/urls.js"
+    },
+    "./dev": {
+      "@maticsh/source": "./src/dev.ts",
+      "types": "./dist/dev.d.ts",
+      "default": "./dist/dev.js"
+    }
   },
+  "bin": {
+    "maticsh-qr": "./dist/bin/qr.js",
+    "maticsh-urls": "./dist/bin/urls.js"
+  },
+  "sideEffects": false,
   "files": [
-    "src"
+    "dist",
+    "!dist/.tsbuildinfo",
+    "README.md",
+    "LICENSE"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
+    "build": "node ../../scripts/build-package.mjs",
+    "prepack": "npm run build",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@evenrealities/even_hub_sdk": "0.0.16",
     "@maticsh/glasses": "0.1.0"
+  },
+  "peerDependencies": {
+    "@evenrealities/evenhub-cli": ">=0.1.14"
+  },
+  "peerDependenciesMeta": {
+    "@evenrealities/evenhub-cli": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2"
   }
 }

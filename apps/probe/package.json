@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "sim": "evenhub-simulator http://localhost:5199",
-    "qr": "node ../../scripts/qr.ts 5199",
+    "qr": "maticsh-qr 5199",
+    "urls": "maticsh-urls",
     "pack": "npm run build && evenhub pack app.json dist -o probe.ehpk --sdk-ver 0.0.16"
   },
   "dependencies": {
@@ -19,6 +20,11 @@
     "@maticsh/glasses": "0.1.0"
   },
   "devDependencies": {
-    "@maticsh/testing": "0.1.0"
+    "@evenrealities/evenhub-cli": "0.1.14",
+    "@evenrealities/evenhub-simulator": "0.9.5",
+    "@maticsh/testing": "0.1.0",
+    "typescript": "5.9.3",
+    "vite": "8.3.4",
+    "vitest": "5.0.5"
   }
 }

@@ -1,7 +1,22 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "include": [
-    "src",
-    "tests"
-  ]
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": [],
+    // Inside the matic-even repo, type @maticsh/* from their source. Installed from npm they ship no source,
+    // and TypeScript moves on to their built .d.ts files.
+    "customConditions": ["@maticsh/source"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true
+  },
+  "include": ["src", "tests"]
 }
