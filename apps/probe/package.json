@@ -1,0 +1,24 @@
+{
+  "name": "probe",
+  "version": "0.1.4",
+  "private": true,
+  "description": "A G2 plugin that measures the glasses: display, input, sensors, lifecycle and images.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "sim": "evenhub-simulator http://localhost:5199",
+    "qr": "node ../../scripts/qr.ts 5199",
+    "pack": "npm run build && evenhub pack app.json dist -o probe.ehpk --sdk-ver 0.0.16"
+  },
+  "dependencies": {
+    "@evenrealities/even_hub_sdk": "0.0.16",
+    "@maticsh/glasses": "0.1.0"
+  },
+  "devDependencies": {
+    "@maticsh/testing": "0.1.0"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "@maticsh/testing",
+  "version": "0.1.0",
+  "description": "Test tools for Even Realities G2 apps: a fake glasses bridge, an app.json lint and a URL scan that matches store review.",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maticsh/matic-even.git",
+    "directory": "packages/testing"
+  },
+  "keywords": [
+    "even-realities",
+    "g2",
+    "even-hub",
+    "smart-glasses"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./urls": "./src/urls.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@evenrealities/even_hub_sdk": "0.0.16",
+    "@maticsh/glasses": "0.1.0"
+  }
+}

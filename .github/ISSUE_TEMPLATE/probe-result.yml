@@ -1,0 +1,102 @@
+name: Probe result
+description: Your result for one of the open probes in docs/probes/.
+title: "P<n> result: "
+labels: ["probe-result"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Follow the steps in the probe's file in `docs/probes/`, then record what it asks for.
+        Write "not recorded" for a version you did not note.
+  - type: dropdown
+    id: probe
+    attributes:
+      label: Probe
+      options:
+        - P3 (30-minute phone lock)
+        - P4 (wearing sensor delay)
+        - P8 (events when the phone backgrounds the Even app)
+        - P10 (battery cost of IMU and slow animation)
+        - P12 (IMU dropouts)
+        - P13 (image updates and upgraded text)
+        - P14 (Even AI Agent setting)
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Result
+      description: What you saw, with numbers and units.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps
+      description: The steps you followed. Note anything you did differently from the probe's file.
+    validations:
+      required: true
+  - type: input
+    id: probe-version
+    attributes:
+      label: Probe app version
+      placeholder: "0.1.4"
+  - type: input
+    id: device
+    attributes:
+      label: Glasses and firmware
+      placeholder: Even G2, firmware 1.2.3
+    validations:
+      required: true
+  - type: input
+    id: app
+    attributes:
+      label: Even app version
+    validations:
+      required: true
+  - type: input
+    id: sdk
+    attributes:
+      label: SDK version
+      placeholder: "@evenrealities/even_hub_sdk 0.0.16"
+    validations:
+      required: true
+  - type: input
+    id: phone
+    attributes:
+      label: Phone and OS
+      placeholder: iPhone, iOS 26.1
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: Install type
+      options:
+        - QR sideload
+        - Private build
+        - Beta build
+        - Simulator
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: Date measured
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+  - type: input
+    id: who
+    attributes:
+      label: Who ran it
+      description: Your GitHub handle, or "anonymous".
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Raw log
+      description: The CSV from apps/probe/logs/, or the part that matters. Remove anything personal first.
+      render: text

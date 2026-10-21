@@ -1,0 +1,24 @@
+{
+  "name": "site",
+  "version": "0.2.0",
+  "private": true,
+  "description": "even.matic.sh: one page, built from the repo's own docs, packages and demo app.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "node serve.mjs",
+    "capture": "node capture.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@maticsh/glasses": "0.1.0",
+    "@maticsh/phone": "0.1.0",
+    "@maticsh/testing": "0.1.0",
+    "marked": "18.1.1"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "vite": "8.3.4"
+  }
+}

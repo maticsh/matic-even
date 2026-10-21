@@ -1,0 +1,29 @@
+{
+  "name": "matic-even",
+  "private": true,
+  "description": "Field notes, packages and a demo app for building Even Realities G2 apps.",
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "site"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "check": "npm run typecheck && npm test",
+    "build": "npm run build --workspaces --if-present",
+    "urls": "node scripts/urls.ts apps/checklist apps/probe"
+  },
+  "devDependencies": {
+    "@evenrealities/evenhub-cli": "0.1.14",
+    "@evenrealities/evenhub-simulator": "0.9.5",
+    "typescript": "5.9.3",
+    "vite": "8.3.4",
+    "vitest": "5.0.5"
+  }
+}

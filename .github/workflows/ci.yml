@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # Typecheck and test every package and app.
+      - run: npm run check
+      # Each app: build, the URL scan that store review runs, then pack the .ehpk.
+      - run: npm run build --workspace apps/checklist
+      - run: node scripts/urls.ts apps/checklist
+      - run: npm run pack --workspace apps/checklist
+      - run: npm run build --workspace apps/probe
+      - run: node scripts/urls.ts apps/probe
+      - run: npm run pack --workspace apps/probe
+      # The site: one page built from the docs, the packages and the demo. It fails on a broken link or anchor.
+      - run: npm run build --workspace site

@@ -1,0 +1,38 @@
+{
+  "name": "@maticsh/glasses",
+  "version": "0.1.0",
+  "description": "Primitives for the glasses side of an Even Realities G2 app: input, text fitting, pages, rendering, storage, lifecycle and pixel drawing.",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maticsh/matic-even.git",
+    "directory": "packages/glasses"
+  },
+  "keywords": [
+    "even-realities",
+    "g2",
+    "even-hub",
+    "smart-glasses"
+  ],
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@evenrealities/even_hub_sdk": "0.0.16",
+    "@evenrealities/pretext": "0.1.4"
+  },
+  "devDependencies": {
+    "@maticsh/testing": "0.1.0"
+  }
+}

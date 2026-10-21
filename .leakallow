@@ -1,0 +1,5 @@
+private-host:scripts/host.ts
+private-host:apps/probe/package.json
+private-host:apps/checklist/package.json
+private-host:apps/checklist/README.md
+private-host:docs/ai/setup.md

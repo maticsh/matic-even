@@ -1,0 +1,35 @@
+{
+  "name": "@maticsh/phone",
+  "version": "0.1.0",
+  "description": "Parts for the phone page of an Even Realities G2 app: a live glasses preview, tabs, rows, buttons, a slider and a two-tap confirm, plus a dev-only remote.",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maticsh/matic-even.git",
+    "directory": "packages/phone"
+  },
+  "keywords": [
+    "even-realities",
+    "g2",
+    "even-hub",
+    "smart-glasses"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./dev": "./src/dev.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@maticsh/glasses": "0.1.0"
+  }
+}

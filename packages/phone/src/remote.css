@@ -1,0 +1,11 @@
+/* DEV ONLY: the remote under the preview (remote.ts). Never in the production build. */
+.remote { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+.rb {
+  min-width: 0; min-height: 44px; border: 0; border-radius: 22px; background: rgba(255,255,255,.55);
+  display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; padding: 0 8px;
+  transition: background-color .2s ease;
+}
+.rb span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rb svg { flex: none; fill: currentColor; shape-rendering: crispEdges; }
+.rb:active, .rb.hit { background: #fff; }
+.rb:disabled { color: #a8a8a8; background: rgba(255,255,255,.3); }

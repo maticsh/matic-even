@@ -1,0 +1,12 @@
+{
+  "name": "matic-even",
+  "version": "0.1.0",
+  "description": "Build Even Realities G2 apps: the Even Hub platform, the traps, facts measured on real glasses, and a preflight check before store review.",
+  "author": {
+    "name": "Matic"
+  },
+  "homepage": "https://even.matic.sh",
+  "repository": "https://github.com/maticsh/matic-even",
+  "license": "MIT",
+  "keywords": ["even-realities", "even-g2", "even-hub", "smart-glasses"]
+}

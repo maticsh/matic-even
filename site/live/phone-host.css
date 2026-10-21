@@ -1,0 +1,18 @@
+/*
+ * The page's own additions to @maticsh/phone's shell.css, inside each part's shadow root. The shell is written for
+ * a whole phone page (a fixed tab bar, a pinned preview). Here each part sits alone, so the frame comes off, as on
+ * the package's Kit view. The page has no motion, so the toggle's slide is off too.
+ */
+:host { display: block; min-width: 0; padding-bottom: 0; background: transparent; }
+*, *::before, *::after { transition: none !important; animation: none !important; }
+.ph-root { min-width: 0; }
+.ph-root > * + * { margin-top: 12px; }
+.ph-root > .note { margin-top: 8px; }
+.tray { padding: 12px; }
+.glass { height: auto; }
+.glass .full { position: static; display: block; opacity: 1; }
+.glass .full svg { width: 100%; height: auto; }
+.glass.thin { height: 44px; }
+.glass.thin .strip { position: absolute; inset: 0; opacity: 1; }
+.tabbar { position: static; display: flex; border: 0; border-radius: var(--radius); padding: 0 4px; background: #f6f6f6; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.btns { padding-top: 10px; padding-bottom: 10px; }

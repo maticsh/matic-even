@@ -1,0 +1,97 @@
+name: Finding
+description: Something you measured on real Even Realities hardware.
+title: "Finding: "
+labels: ["finding"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One finding per issue. Fill in every required field, so someone else can repeat it.
+        Write "not recorded" for a version you did not note.
+  - type: textarea
+    id: claim
+    attributes:
+      label: Claim
+      description: What is true, with numbers and units. One idea per sentence.
+      placeholder: A 144 x 144 PNG sent with updateImageRawData lands in 150 to 300 ms.
+    validations:
+      required: true
+  - type: textarea
+    id: method
+    attributes:
+      label: Method
+      description: How you measured it. Which probe page or code, which gestures, what you watched or logged.
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Glasses and firmware
+      placeholder: Even G2, firmware 1.2.3
+    validations:
+      required: true
+  - type: input
+    id: app
+    attributes:
+      label: Even app version
+    validations:
+      required: true
+  - type: input
+    id: sdk
+    attributes:
+      label: SDK version
+      placeholder: "@evenrealities/even_hub_sdk 0.0.16"
+    validations:
+      required: true
+  - type: input
+    id: phone
+    attributes:
+      label: Phone and OS
+      placeholder: iPhone, iOS 26.1
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: Install type
+      options:
+        - QR sideload
+        - Private build
+        - Beta build
+        - Store release
+        - Simulator
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: Date measured
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+  - type: input
+    id: who
+    attributes:
+      label: Who saw it
+      description: Your GitHub handle, or "anonymous".
+    validations:
+      required: true
+  - type: input
+    id: confidence
+    attributes:
+      label: Confidence
+      description: How many times you saw it.
+      placeholder: Seen once / repeated 5 times / one 30-minute run
+    validations:
+      required: true
+  - type: textarea
+    id: meaning
+    attributes:
+      label: What it means for an app
+      description: One to three rules a developer can follow.
+  - type: textarea
+    id: log
+    attributes:
+      label: Raw log
+      description: Paste the relevant part of the log, or attach the file. Remove anything personal first.
+      render: text

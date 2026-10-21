@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <title>Matic Probe</title>
+    <style>
+      html, body {
+        margin: 0;
+        height: 100%;
+        background: #111;
+        color: #e5e5e5;
+        font: 14px/1.5 ui-monospace, Menlo, monospace;
+        touch-action: manipulation;
+        -webkit-text-size-adjust: 100%;
+        overscroll-behavior: none;
+      }
+      main { padding: 24px; }
+      h1 { font-size: 16px; margin: 0 0 12px; }
+      pre { white-space: pre-wrap; color: #7CFC7C; margin: 0 0 20px; }
+      li { margin-bottom: 6px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Matic Probe</h1>
+      <pre id="status">waiting for the glasses...</pre>
+      <ol>
+        <li><b>Blink:</b> tap the temple. Does the header catch your eye from the side?</li>
+        <li><b>Wearing:</b> take the glasses off for 10 s, then put them back on.</li>
+        <li><b>Image:</b> swipe. Note the ms and whether the image flickers.</li>
+        <li><b>Long session:</b> leave it running. Gaps over 15 s mean the app was suspended.</li>
+        <li><b>Sense:</b> swipe up. Follow the IMU script in the probe README. Long-press at the start of each step.</li>
+        <li><b>Scripts:</b> tap, then hold, and pick Scripts. Compare the glasses with the text on this page.</li>
+      </ol>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
