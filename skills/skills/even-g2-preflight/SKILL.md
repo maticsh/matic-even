@@ -9,8 +9,8 @@ Run these checks in order before you pack a build for store review. Each check c
 rejection or a pack failure. Stop at the first failure, fix it, and run the checks again from step 1.
 
 The `even-g2` skill has the background. The lessons behind each check are in
-https://github.com/maticsh/matic-even under `docs/review/`. The tools below come from that repo. They are
-not on npm yet, so clone the repo once:
+https://github.com/maticsh/matic-even under `docs/review/`. The tools below come from that repo, and
+`@maticsh/testing` on npm has the URL scan as `npx maticsh-urls <app>`. To use the repo's scripts, clone it once:
 
 ```sh
 git clone https://github.com/maticsh/matic-even matic-even

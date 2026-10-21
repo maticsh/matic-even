@@ -137,4 +137,4 @@ The host posts messages into the WebView. The SDK parses all three event shapes:
 
 Native calls go out through `window.flutter_inappwebview.callHandler`. Outside the Even app or the
 simulator, the bridge throws `Flutter handler not available`. Inject a fake bridge for browser-only
-unit tests. `FakeBridge` in `@maticsh/testing` is one (not on npm yet; see https://github.com/maticsh/matic-even).
+unit tests. `FakeBridge` in `@maticsh/testing` is one (`npm install -D @maticsh/testing`).

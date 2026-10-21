@@ -60,7 +60,7 @@ adds what we learned on glass and at review. Use Even's for scaffolds and walk-t
 | Measured facts | Not covered | Findings H1 to H23 from a real G2, each with a method and a confidence level |
 | Packages | Not covered | `@maticsh/glasses`, `@maticsh/testing`, `@maticsh/phone` and the demo app `apps/checklist`, mapped to the traps they remove |
 
-The packages are not on npm yet. The skills say how to use them from the repo until they are.
+The packages are on npm as `@maticsh/glasses`, `@maticsh/phone` and `@maticsh/testing`.
 
 ## Sources
 

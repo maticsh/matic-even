@@ -6,7 +6,11 @@ import { dirname, extname, join, normalize, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 
-const { values } = parseArgs({ options: { host: { type: 'string', default: '127.0.0.1' }, port: { type: 'string', default: '5700' } } })
+// On a host such as Railway, PORT is set and the server listens on every interface.
+const { values } = parseArgs({ options: {
+  host: { type: 'string', default: process.env.PORT ? '0.0.0.0' : '127.0.0.1' },
+  port: { type: 'string', default: process.env.PORT ?? '5700' },
+} })
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), 'dist')
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',

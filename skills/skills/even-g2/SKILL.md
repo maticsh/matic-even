@@ -396,8 +396,9 @@ latency (P4), what fires when the phone backgrounds the app (P8), IMU battery co
 
 ## Matic's packages: where they remove a trap
 
-The repo https://github.com/maticsh/matic-even holds MIT packages built from these traps. **They are not on npm
-yet.** Until they are, clone the repo and use them from its workspace. Names are provisional until 1.0.
+The repo https://github.com/maticsh/matic-even holds MIT packages built from these traps. They are on npm:
+`npm install @maticsh/glasses @maticsh/phone` and, for tests, `npm install -D @maticsh/testing`. They are at 0.x, so
+an update can change their API.
 
 | Package | What | Trap it removes |
 |---|---|---|

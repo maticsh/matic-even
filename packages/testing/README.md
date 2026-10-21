@@ -17,7 +17,7 @@ Import it from tests, scripts and `vite.config.ts` only, never from app code. It
 | `FakeBridge` | An in-memory glasses bridge for unit tests. It records every call, keeps the page and text state, and checks each payload the way the SDK and firmware would. Drive it with `tap()`, `doubleTap()`, `swipe()`, `hold()`, `release()`, `imuSample()`, `menu()`, `foreground()`, `systemExit()`, `abnormalExit()` and `status()` |
 | `FakeBridge.assertNoViolations()` | Failing a test on any write the device would drop with no error: a second startup page, an upgrade to an unknown container, parallel image sends, a sensor opened before the page |
 | `lintManifest` | Checking `app.json` against the packaging and review rules: `package_id` shape, a name with no "Even", an `x.y.z` version, declared and used permissions, whitelist shape, languages |
-| `scanUrls`, `whitelistOf`, `onWhitelist` | Checking a built bundle the way store review does: every URL string must be on the network whitelist, even one the app never calls ([docs/review/urls.md](../../docs/review/urls.md)). Also at `@maticsh/testing/urls`, which has no other imports |
+| `scanUrls`, `whitelistOf`, `onWhitelist` | Checking a built bundle the way store review does: every URL string must be on the network whitelist, even one the app never calls ([docs/review/urls.md](https://github.com/maticsh/matic-even/blob/main/docs/review/urls.md)). Also at `@maticsh/testing/urls`, which has no other imports |
 
 ### Dev server: `@maticsh/testing/dev`
 
