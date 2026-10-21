@@ -23,8 +23,8 @@ const REPO = 'https://github.com/maticsh/matic-even'
 /** Where the page is served. The suggested prompts and llms.txt point here. */
 const SITE_URL = 'https://even.matic.sh'
 const ISSUES = `${REPO}/issues`
-/** Issue numbers for the open probes, once they are posted. Until then a probe's link searches the issues for its ID. */
-const PROBE_ISSUES = {}
+/** Issue numbers for the open questions on GitHub. A probe without one links to an issue search for its ID. */
+const PROBE_ISSUES = { P3: 1, P4: 2, P8: 3, P10: 4, P12: 5, P13: 6, P14: 7 }
 const MATIC = 'https://matic.sh'
 
 const SITE = dirname(fileURLToPath(import.meta.url))
