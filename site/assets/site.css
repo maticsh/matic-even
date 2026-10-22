@@ -126,6 +126,8 @@ table.mini { font-size: 13px; }
 .screen { min-width: 0; display: flex; flex-direction: column; }
 .screen h4 { margin-bottom: 12px; }
 .phv { width: 100%; max-width: 390px; height: 600px; border: 1px solid var(--rule); border-radius: 18px; overflow: hidden; }
+/* First run has no preview and little content, so its box fits the content. */
+.phv[data-screen="first-run"] { height: 340px; }
 .demo-pics { margin-top: 32px; display: grid; grid-template-columns: minmax(0, 576px) minmax(0, 300px); justify-content: space-between; gap: 48px; align-items: start; }
 .phone-shot { margin: 0; }
 .phone-shot img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 14px; }

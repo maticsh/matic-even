@@ -5,7 +5,7 @@ Test tools for Even Realities G2 apps. They catch on your machine what would oth
 ## Install
 
 ```sh
-npm i -D -E @maticsh/testing@0.1.0
+npm i -D -E @maticsh/testing@0.2.0
 ```
 
 Import it from tests, scripts and `vite.config.ts` only, never from app code. It ships ES modules with type declarations, and its bins run on plain Node.

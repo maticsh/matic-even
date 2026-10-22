@@ -7,7 +7,7 @@ It wraps `@evenrealities/even_hub_sdk` 0.0.16. It works in any app that runs in 
 ## Install
 
 ```sh
-npm i -E @maticsh/glasses@0.1.0
+npm i -E @maticsh/glasses@0.2.0
 ```
 
 It ships ES modules with type declarations. Inside this repo's npm workspace, apps load its TypeScript source instead (the `@maticsh/source` export condition).

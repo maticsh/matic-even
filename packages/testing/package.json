@@ -1,6 +1,6 @@
 {
   "name": "@maticsh/testing",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Test tools for Even Realities G2 smart glasses apps on Even Hub: a fake glasses bridge for unit tests, an app.json lint and a URL scan that matches store review.",
   "keywords": [
     "even-realities",
@@ -68,7 +68,7 @@
   },
   "dependencies": {
     "@evenrealities/even_hub_sdk": "0.0.16",
-    "@maticsh/glasses": "0.1.0"
+    "@maticsh/glasses": "0.2.0"
   },
   "peerDependencies": {
     "@evenrealities/evenhub-cli": ">=0.1.14"

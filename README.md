@@ -97,7 +97,7 @@ npm run dev            # then, in a second terminal: npm run qr
 
 ## Packages
 
-Building blocks for G2 apps, in `packages/`, on npm at 0.1.0.
+Building blocks for G2 apps, in `packages/`, on npm at 0.2.0.
 
 | Package | What it is |
 |---|---|

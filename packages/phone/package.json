@@ -1,6 +1,6 @@
 {
   "name": "@maticsh/phone",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Phone UI parts for Even Realities G2 smart glasses apps on Even Hub: a live glasses preview, tabs, rows, buttons, a slider and a two-tap confirm, plus a dev-only remote.",
   "keywords": [
     "even-realities",
@@ -62,6 +62,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@maticsh/glasses": "0.1.0"
+    "@maticsh/glasses": "0.2.0"
   }
 }

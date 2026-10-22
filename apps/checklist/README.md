@@ -74,7 +74,7 @@ On the real page, `?demo` starts from the example lists in their own storage (de
 
 ## Use it as a template
 
-The `@maticsh/*` packages are on npm at 0.1.0, and this folder declares every package it needs, so a copy runs on its own. Node 24 or later:
+The `@maticsh/*` packages are on npm at 0.2.0, and this folder declares every package it needs, so a copy runs on its own. Node 24 or later:
 
 ```sh
 npx degit maticsh/matic-even/apps/checklist my-app && cd my-app && npm install

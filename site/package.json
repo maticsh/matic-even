@@ -12,9 +12,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@maticsh/glasses": "0.1.0",
-    "@maticsh/phone": "0.1.0",
-    "@maticsh/testing": "0.1.0",
+    "@maticsh/glasses": "0.2.0",
+    "@maticsh/phone": "0.2.0",
+    "@maticsh/testing": "0.2.0",
     "marked": "18.1.1"
   },
   "devDependencies": {

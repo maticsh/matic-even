@@ -1,0 +1,43 @@
+name: release
+
+# Publishes @maticsh/glasses, @maticsh/phone and @maticsh/testing to npm when a version tag (v0.2.0) is pushed.
+# npm trusts this workflow through OIDC (trusted publishing), so no token is stored anywhere.
+# Each package on npmjs.com names maticsh/matic-even, release.yml and the environment `npm`.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      # Trusted publishing needs npm 11.5.1 or later.
+      - run: npm install -g npm@latest
+      - run: npm ci
+      - run: npm run build --workspace packages --if-present
+      - run: npm run check
+      - run: node scripts/check-pack.mjs
+      # The tag must match every package's version, so a tag can't publish the wrong code.
+      - run: node scripts/release-check.mjs "${GITHUB_REF_NAME}"
+      # Glasses first: phone and testing pin it exactly. A version already on npm is skipped, so a re-run is safe.
+      - run: |
+          for p in glasses phone testing; do
+            name="@maticsh/$p"
+            version=$(node -p "require('./packages/$p/package.json').version")
+            if npm view "$name@$version" version >/dev/null 2>&1; then
+              echo "$name@$version is already on npm"
+            else
+              npm publish --workspace "packages/$p" --provenance --access public
+            fi
+          done

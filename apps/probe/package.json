@@ -17,12 +17,12 @@
   },
   "dependencies": {
     "@evenrealities/even_hub_sdk": "0.0.16",
-    "@maticsh/glasses": "0.1.0"
+    "@maticsh/glasses": "0.2.0"
   },
   "devDependencies": {
     "@evenrealities/evenhub-cli": "0.1.14",
     "@evenrealities/evenhub-simulator": "0.9.5",
-    "@maticsh/testing": "0.1.0",
+    "@maticsh/testing": "0.2.0",
     "typescript": "5.9.3",
     "vite": "8.3.4",
     "vitest": "5.0.5"

@@ -1,6 +1,6 @@
 {
   "name": "@maticsh/glasses",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Glasses-side primitives for Even Realities G2 smart glasses apps on Even Hub: input, text fitting, pages, rendering, storage, lifecycle and pixel drawing. TypeScript.",
   "keywords": [
     "even-realities",
@@ -56,6 +56,6 @@
     "@evenrealities/pretext": "0.1.4"
   },
   "devDependencies": {
-    "@maticsh/testing": "0.1.0"
+    "@maticsh/testing": "0.2.0"
   }
 }
