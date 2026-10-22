@@ -1,4 +1,7 @@
-# G2 field notes
+# matic even: Even Realities G2 field notes and toolkit
+
+Open-source toolkit and field notes for building Even Realities G2 glasses apps.
+TypeScript packages for the glasses and the phone ([`@maticsh/glasses`](packages/glasses/), [`@maticsh/phone`](packages/phone/), [`@maticsh/testing`](packages/testing/)), a demo app, skills for your AI, and findings measured on a real pair. The site is [even.matic.sh](https://even.matic.sh).
 
 We measured a pair of Even Realities G2 glasses. This repo holds what we found, and the parts to build a G2 app on them. Each finding states a measured claim and what it means for your app.
 
@@ -105,7 +108,11 @@ Building blocks for G2 apps, in `packages/`, on npm at 0.1.0.
 
 ## The demo app
 
-[apps/checklist/](apps/checklist/README.md) is a small app built on the packages: three short lists, ticked from the glasses and edited on the phone. It is also the template for a new app.
+[apps/checklist/](apps/checklist/README.md) is a small app built on the packages: three short lists, ticked from the glasses and edited on the phone. It is also the template for a new app. [docs/architecture.md](docs/architecture.md) describes how it is built.
+
+## The relay server
+
+[apps/relay/](apps/relay/README.md) is a small server for an app that needs outside data, such as feeds, APIs or pages its users add. The app whitelists the relay's one origin, and the relay fetches the rest. Address checks, size and time caps and a rate limit are on by default. Copy it on its own with `npx degit maticsh/matic-even/apps/relay my-relay`.
 
 ## Work in this repo
 
@@ -113,7 +120,7 @@ The packages and apps are one npm workspace. Node 24 or later.
 
 ```sh
 npm ci
-npm run check          # typecheck and test every package and app
+npm run check          # typecheck and test every package, both apps and the relay
 npm run build          # build the packages, both apps and the site
 npm run urls           # the URL scan on both builds
 ```

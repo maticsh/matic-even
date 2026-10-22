@@ -46,6 +46,8 @@ Keep every outside URL off the bundle. Give the app one origin to talk to, and l
    - It caps the size of each response body and the time of each request.
    - It limits how many requests each client can send a minute.
 
+   [apps/relay](../../apps/relay/README.md) is a server that does all of this, ready to copy.
+
 ## Whitelist shape and CORS
 
 - The whitelist entry must be a full origin: `https://` plus the host, with no path and no wildcard. Add a `wss://` origin for a socket.

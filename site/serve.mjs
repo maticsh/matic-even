@@ -14,7 +14,7 @@ const { values } = parseArgs({ options: {
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), 'dist')
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
-  '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon',
+  '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.xml': 'application/xml; charset=utf-8',
   // Plain text, so a browser shows setup.md and llms.txt instead of downloading them.
   '.txt': 'text/plain; charset=utf-8', '.md': 'text/plain; charset=utf-8',
 }

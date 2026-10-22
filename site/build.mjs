@@ -6,7 +6,8 @@
 //   - the demo app and the probe, from the PNGs in site/assets/ (taken by site/capture.mjs)
 //   - the AI section, from the skills' SKILL.md files, the plugin manifests and docs/ai/setup.md
 // Output: site/dist/index.html, site/dist/assets/, and beside the page setup.md, setup.txt (docs/ai/setup.md as it
-// is) and llms.txt (an index of the docs for AI tools). The build fails on a broken link or anchor.
+// is), llms.txt (an index of the docs for AI tools), robots.txt and sitemap.xml. The build fails on a broken link or
+// anchor, or on missing search and share tags (lib/seo.mjs).
 // Usage: npm run build --workspace site, after `npm ci` at the repo root. By hand: node --conditions=@maticsh/source site/build.mjs
 // (the condition loads @maticsh/* from their TypeScript source, so the page never waits on a package build).
 import { execFileSync } from 'node:child_process'
@@ -18,10 +19,11 @@ import { build as vite, defaultClientConditions } from 'vite'
 import { LINE_HEIGHT } from '@maticsh/glasses'
 import { PARTS } from './live/catalog.ts'
 import { border, esc, gridPaths, outline, svg, textBox, textLine } from './lib/draw.mjs'
+import { checkHead, headTags, robotsTxt, sitemapXml } from './lib/seo.mjs'
 
 /** The repo's home. Not live yet: every GitHub link on the page is built from this one constant. */
 const REPO = 'https://github.com/maticsh/matic-even'
-/** Where the page is served. The suggested prompts and llms.txt point here. */
+/** Where the page is served. The suggested prompts, llms.txt, the canonical and share tags and the sitemap point here. */
 const SITE_URL = 'https://even.matic.sh'
 const ISSUES = `${REPO}/issues`
 /** Issue numbers for the open questions on GitHub. A probe without one links to an issue search for its ID. */
@@ -57,11 +59,13 @@ function anchorFor(path, frag) {
   if ((m = /^docs\/review\/([\w-]+)\.md$/.exec(path))) return `review-${m[1]}${frag ? `-${frag}` : ''}`
   if (path === 'apps/probe/README.md' || path === 'apps/probe') return frag ? `probe-${frag}` : 'probe'
   if (path === 'CONTRIBUTING.md') return frag ? `contribute-${frag}` : 'contribute'
+  if (path === 'docs/architecture.md') return frag ? `architecture-${frag}` : 'architecture'
   const whole = {
     'README.md': 'top', 'docs/findings': 'findings', 'docs/review': 'review', 'docs/probes': 'probes',
     'packages/glasses/README.md': 'glasses', 'packages/glasses': 'glasses', 'packages/phone/README.md': 'phone',
     'packages/phone': 'phone', 'packages/testing/README.md': 'tools', 'packages/testing': 'tools',
-    'apps/checklist/README.md': 'demo', 'apps/checklist': 'demo', 'skills/README.md': 'skills', 'skills': 'skills',
+    'apps/checklist/README.md': 'demo', 'apps/checklist': 'demo', 'apps/relay/README.md': 'relay', 'apps/relay': 'relay',
+    'skills/README.md': 'skills', 'skills': 'skills',
   }[path]
   return whole && !frag ? whole : null
 }
@@ -86,7 +90,8 @@ function rewrite(href) {
 const titles = new Map([
   ['top', 'the README'], ['findings', 'findings'], ['review', 'store review'], ['probes', 'open questions'],
   ['probe', 'the probe app'], ['contribute', 'contributing'], ['demo', 'Checklist'], ['skills', 'the skills'],
-  ['glasses', '@maticsh/glasses'], ['phone', '@maticsh/phone'], ['tools', '@maticsh/testing'],
+  ['glasses', '@maticsh/glasses'], ['phone', '@maticsh/phone'], ['tools', '@maticsh/testing'], ['relay', 'the relay server'],
+  ['architecture', 'how Checklist is built'],
 ])
 function titleOf(id) {
   if (/^[hp]\d+$/.test(id)) return id.toUpperCase()
@@ -154,6 +159,9 @@ function split(tokens, depth) {
   return { head, parts }
 }
 const drop = (tokens, type) => tokens.filter(t => t.type !== type)
+/** Every code block in some tokens, inside list items too. */
+const codeTokens = tokens => tokens.flatMap(t => (t.type === 'code' ? [t]
+  : [...codeTokens(t.tokens ?? []), ...(t.items ?? []).flatMap(i => codeTokens(i.tokens ?? []))]))
 const withoutTitle = tokens => tokens.filter(t => !(t.type === 'heading' && t.depth === 1))
 
 /** Each `## section` of a document as a <details>, id'd under the document's prefix. */
@@ -236,6 +244,8 @@ for (const l of lessons) titles.set(`review-${l.key}`, l.title.charAt(0).toLower
 const probeGuide = split(withoutTitle(lex('apps/probe/README.md')), 2)
 const probePkg = JSON.parse(read('apps/probe/package.json'))
 const checklist = split(withoutTitle(lex('apps/checklist/README.md')), 2)
+const architecture = split(withoutTitle(lex('docs/architecture.md')), 2)
+const relayDoc = split(withoutTitle(lex('apps/relay/README.md')), 2)
 const contributing = split(withoutTitle(lex('CONTRIBUTING.md')), 2)
 const skills = split(withoutTitle(lex('skills/README.md')), 2)
 const testing = split(withoutTitle(lex('packages/testing/README.md')), 2)
@@ -369,11 +379,12 @@ const PROMPTS = [
  * numbers and the headings all come from here. A subsection keeps the id it had before the page had sections.
  */
 const SECTIONS = [
-  { id: 'components', title: 'Components', lede: 'Three packages to build a G2 app from, shown working on this page, and the demo app that puts them together.', subs: [
+  { id: 'components', title: 'Components', lede: 'Three packages to build a G2 app from, shown working on this page, the demo app that puts them together, and a server for outside data.', subs: [
     { id: 'glasses', title: 'Glasses UI', line: 'Action bars, glyphs, text fit and pages, drawn by the package.', count: `${primitives.glasses} exports`, html: glassesSection },
     { id: 'phone', title: 'Phone UI', line: 'The phone page\'s parts, live on this page.', count: `${PARTS.length} parts`, html: phoneSection },
     { id: 'tools', title: 'Test tools', line: 'A fake bridge, the manifest lint and the URL scan.', count: `${primitives.testing} exports`, html: toolsSection },
     { id: 'demo', title: 'The demo app', line: 'Checklist puts the parts together on the glasses and the phone. Copy it to start your own app.', count: 'apps/checklist', html: demoSection },
+    { id: 'relay', title: 'Relay server', line: 'A small server your app can whitelist, to fetch everything else.', count: 'apps/relay', html: relaySection },
   ] },
   { id: 'research', title: 'Probe & findings', lede: 'How we measure the G2 with our probe app, and what store review taught us.', subs: [
     { id: 'probe', title: 'The probe app', line: 'The app we measure with.', count: `v${probePkg.version}`, html: probeSection },
@@ -501,6 +512,48 @@ ${head('demo', 'apps/checklist', bare(render([firstParagraph(checklist.head)], s
   <div class="md"><h4 id="demo-what-it-shows">What it shows</h4>${render(shows.tokens, src, 'demo', 3)}</div>
   <div class="md"><h4 id="demo-use-it-as-a-template">Use it as a template</h4>${render(template.tokens, src, 'demo', 3)}</div>
 </div>
+${architectureHtml()}
+</section>`
+}
+
+/** docs/architecture.md under the demo: the diagram open, every other part folded. */
+function architectureHtml() {
+  const src = 'docs/architecture.md'
+  const [parts, ...rest] = architecture.parts
+  if (parts?.title !== 'The parts' || !rest.length) throw new Error(`${src} needs "The parts" first, then more sections`)
+  return `<div class="arch">
+<h4 id="architecture">How it's built</h4>
+<div class="md">${render(parts.tokens, src, 'architecture', 3)}</div>
+<div class="guide">
+${sectionsAsDetails(rest, src, 'architecture')}
+</div>
+<p class="more-link">The whole page is <a href="${github(src)}">${src}</a>.</p>
+</div>`
+}
+
+function relaySection() {
+  const src = 'apps/relay/README.md'
+  const part = title => relayDoc.parts.find(p => p.title === title) ?? (() => { throw new Error(`${src} needs "${title}"`) })()
+  const safety = part('Safety').tokens.find(t => t.type === 'table')
+  const app = codeTokens(part('The app side').tokens)
+  const manifest = app.find(t => t.lang === 'json')
+  const call = app.find(t => t.lang === 'ts')
+  const degit = codeTokens(part('Use it as a template').tokens).find(t => t.text.includes('degit'))
+  if (!safety || !manifest || !call || !degit) throw new Error(`${src}: the site needs the Safety table, the app side's json and ts blocks, and the degit line`)
+  const intro = relayDoc.head.filter(t => t.type === 'paragraph')
+  return `<section id="relay" class="sub">
+${head('relay', 'apps/relay · node 24 · no dependencies')}
+<div class="md lede-md">${render(intro, src, 'relay')}</div>
+<div class="cols">
+  <div class="md"><h4 id="relay-safety">Safety, on by default</h4>${render([safety], src, 'relay', 3)}</div>
+  <div class="md">
+    <h4 id="relay-the-app-side">The app side</h4>
+    <p>Put the relay's origin on the whitelist in <code>app.json</code>:</p>${codeBlock(manifest.text, 'json')}
+    <p>Then call it with the outside URL as data:</p>${codeBlock(call.text, 'ts')}
+    <h4 id="relay-use-it-as-a-template">Use it as a template</h4>${codeBlock(degit.text, 'sh')}
+  </div>
+</div>
+<p class="more-link">The routes, the settings, open mode, the key, the cache and how to deploy it: <a href="${github(src)}">apps/relay/README.md</a>.</p>
 </section>`
 }
 
@@ -670,16 +723,12 @@ ${sectionsAsDetails(contributing.parts, 'CONTRIBUTING.md', 'contribute')}
 }
 
 function page(body) {
-  const description = 'We measured a pair of Even Realities G2 glasses. Here is what we found, and the parts to build a G2 app on them.'
   return `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>matic even · build for Even Realities G2</title>
-  <meta name="description" content="${esc(description)}">
-  <meta name="theme-color" content="#ededed">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  ${headTags({ site: SITE_URL, repo: REPO, studio: MATIC })}
   <link rel="stylesheet" href="assets/site.css">
   <script type="module" src="assets/phone.js"></script>
 </head>
@@ -699,7 +748,7 @@ ${body}
 </main>
 <footer class="foot">
   <p>Independent. Not affiliated with Even Realities.</p>
-  <p class="labels mono"><a href="${MATIC}">a matic project</a><a href="${github('LICENSE')}">mit license</a><a href="${REPO}">github</a><a href="#contribute">contribute</a></p>
+  <p class="labels mono"><a href="${MATIC}">a matic project</a><a href="${github('LICENSE')}">mit license</a><a href="${REPO}">github</a><a href="#apps">apps by matic</a><a href="#contribute">contribute</a></p>
 </footer>
 <script>
   // A phone gets a plain menu button for the nav. Without script, the nav stays a list.
@@ -793,6 +842,14 @@ ${list(probes.map(p => [`${p.id}: ${text(p.question)}`, p.src]))}
 
 ${list(packages.map(path => [lex(path).find(t => t.type === 'heading' && t.depth === 1)?.text ?? path, path, lead(withoutTitle(lex(path)))]))}
 
+## Apps
+
+${list([
+  ['Checklist, the demo app', 'apps/checklist/README.md', lead(checklist.head)],
+  ['How Checklist is built', 'docs/architecture.md', ': its folders, the screen model, input, writes to the glasses, state and tests'],
+  ['Relay server', 'apps/relay/README.md', lead(relayDoc.head)],
+])}
+
 ## Skills
 
 ${list([...skillList.map(k => [k.name, k.src, `: ${k.summary}`]), ...references])}
@@ -806,13 +863,37 @@ mkdirSync(join(DIST, 'assets'), { recursive: true })
 
 const sections = []
 for (const s of SECTIONS) sections.push(await sectionHtml(s))
-const body = [hero(), toc(), ...sections].join('\n\n')
+/** Matic's own apps on Even Hub, after the sections. Taglines are the listings' own (2026-10-22). */
+const HUB = 'https://hub.evenrealities.com/catalogue/'
+const APPS = [
+  { id: 'sh.matic.chromatic', name: 'Chromatic', line: 'AI agent for G2. Any model. Your tools. No server.' },
+  { id: 'sh.matic.sapling', name: 'Sapling', line: 'Pomodoro focus timer that grows a forest.' },
+  { id: 'sh.matic.kiosk', name: 'Kiosk', line: 'RSS feed reader for news and blogs, at a glance.' },
+  { id: 'sh.matic.seatback', name: 'Seatback', line: 'Flight progress, like a seatback map.' },
+  { id: 'sh.matic.perch', name: 'Perch', line: 'Virtual pet that keeps you company while you work.' },
+]
+function appsSection() {
+  const rows = APPS.map(a => `<li><a href="${HUB}${a.id}" target="_blank" rel="noopener"><span class="t">${esc(a.name)}</span><span class="d">${esc(a.line)}</span><span class="c mono">on even hub ↗</span></a></li>`).join('\n    ')
+  return `<section id="apps" class="sec apps" aria-labelledby="apps-title">
+  <div class="sh"><h2 id="apps-title"><a href="#apps">Apps by Matic</a></h2><p class="k">${APPS.length} on even hub</p></div>
+  <p class="lede">Our own apps for Even Realities G2, built on the same parts. Find them on Even Hub.</p>
+  <ul class="app-list">
+    ${rows}
+  </ul>
+</section>`
+}
+
+const body = [hero(), toc(), ...sections, appsSection()].join('\n\n')
 const html = page(body)
 writeFileSync(join(DIST, 'index.html'), html)
 cpSync(join(SITE, 'assets'), join(DIST, 'assets'), { recursive: true })
 writeFileSync(join(DIST, 'setup.md'), read(SETUP))
 writeFileSync(join(DIST, 'setup.txt'), read(SETUP))
 writeFileSync(join(DIST, 'llms.txt'), llmsTxt())
+// For search engines: allow everything, and a sitemap of the page dated by this build.
+writeFileSync(join(DIST, 'robots.txt'), robotsTxt(SITE_URL))
+writeFileSync(join(DIST, 'sitemap.xml'), sitemapXml(SITE_URL, new Date().toISOString().slice(0, 10)))
+checkHead(html, SITE_URL, DIST)
 
 // The phone parts for the browser: @maticsh/phone's code and its stylesheet, as one script.
 const PHONE_INDEX = join(ROOT, 'packages/phone/src/index.ts')

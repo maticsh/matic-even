@@ -1,8 +1,26 @@
 {
   "name": "matic-even",
   "private": true,
-  "description": "Field notes, packages and a demo app for building Even Realities G2 apps.",
+  "description": "Open-source toolkit and field notes for building Even Realities G2 glasses apps: measured findings, glasses and phone UI, test tools, a demo app and AI skills.",
+  "keywords": [
+    "even-realities",
+    "even-g2",
+    "g2",
+    "smart-glasses",
+    "hud",
+    "evenhub",
+    "even-hub",
+    "glasses-app",
+    "toolkit",
+    "field-notes",
+    "claude-code",
+    "typescript"
+  ],
   "license": "MIT",
+  "homepage": "https://even.matic.sh",
+  "bugs": {
+    "url": "https://github.com/maticsh/matic-even/issues"
+  },
   "type": "module",
   "workspaces": [
     "packages/*",

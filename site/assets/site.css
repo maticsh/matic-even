@@ -122,6 +122,8 @@ table.mini { font-size: 13px; }
 .demo-pics { margin-top: 32px; display: grid; grid-template-columns: minmax(0, 576px) minmax(0, 300px); justify-content: space-between; gap: 48px; align-items: start; }
 .phone-shot { margin: 0; }
 .phone-shot img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 14px; }
+.arch { margin-top: 56px; }
+.arch > .md { max-width: 46em; }
 .cols { margin-top: 40px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
 
 /* Tools: code, then what it printed */
@@ -300,3 +302,13 @@ html:not(.js) button.copy { display: none; }
   .toc + .sec { margin-top: 64px; }
   .prompts .n { display: none; }
 }
+
+/* Apps by Matic: one hairline row per app, linking to its Even Hub listing. */
+.app-list { list-style: none; padding: 0; margin: 24px 0 0; max-width: 760px; }
+.app-list li { border-top: 1px solid var(--rule); }
+.app-list li:last-child { border-bottom: 1px solid var(--rule); }
+.app-list a { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "t c" "d d"; gap: 2px 16px; padding: 14px 0; min-height: 44px; text-decoration: none; }
+.app-list .t { grid-area: t; font-size: 17px; }
+.app-list .d { grid-area: d; font-size: 15px; color: var(--quiet); }
+.app-list .c { grid-area: c; font-size: 11px; letter-spacing: .08em; color: var(--quiet); white-space: nowrap; align-self: center; }
+.app-list a:hover .t { text-decoration: underline; text-decoration-thickness: 1px; }

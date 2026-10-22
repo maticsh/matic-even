@@ -4,3 +4,8 @@ private-host:apps/probe/package.json
 private-host:apps/checklist/package.json
 private-host:apps/checklist/README.md
 private-host:docs/ai/setup.md
+# The relay refuses 100.64.0.0/10. Its code, tests and README name these example addresses in that range.
+private-host:100.64.0.0
+private-host:100.64.0.1
+private-host:100.100.100.100
+private-host:100.127.255.254

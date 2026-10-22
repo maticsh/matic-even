@@ -1,0 +1,20 @@
+{
+  // Standalone, so a copy of this folder typechecks on its own. Node 24 runs the source as it is (type
+  // stripping), so the code uses only syntax that can be erased, and imports name their .ts files.
+  "compilerOptions": {
+    "target": "ES2024",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2024"],
+    "types": ["node"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true
+  },
+  "include": ["src", "tests"]
+}
