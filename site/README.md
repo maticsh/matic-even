@@ -39,8 +39,8 @@ node site/og.mjs --font path/to/Inter-Regular.woff2   # closer to San Francisco 
 
 `build.mjs` is a Node script. `npm run build` runs it with `--conditions=@maticsh/source`, so Node loads the packages' TypeScript source rather than their `dist/`, and runs it as it is.
 
-The page has four numbered sections, each with subsections: 01 Components (glasses UI, phone UI, test tools, the demo
-app, the relay server), 02 Probe & findings (the probe app, findings, open questions, store review), 03 AI (skills, the
+The page has four numbered sections, each with subsections: 01 Components (glasses UI, phone UI, test tools, assembled
+screens, the demo app, the relay server), 02 Probe & findings (the probe app, findings, open questions, store review), 03 AI (skills, the
 Claude Code plugin) and 04 Get started (with AI, by hand, contribute). The outline is `SECTIONS` in `build.mjs`. The
 contents card, the top bar and every number come from it, and each subsection keeps the id it had before the page had
 sections.
@@ -49,6 +49,7 @@ sections.
 |---|---|
 | Glasses UI | `samples/*.ts` run against `@maticsh/glasses`. The build draws what they export as inline SVG (`lib/draw.mjs`), and shows each file beside its picture |
 | Phone UI | `live/phone.ts`, bundled by Vite into `dist/assets/phone.js`. It draws `@maticsh/phone`'s parts with the package's own code and stylesheet, each in a shadow root |
+| Assembled screens | The glasses presets from `samples/list-page.ts`, `value-page.ts`, `card-page.ts` and `image-page.ts`, drawn like the glasses UI with each finding they rely on linked. The phone recipes from `live/screens.ts`, each in a shadow root in a phone-sized box that scrolls on its own |
 | The demo app, the probe | The PNGs in `assets/`, taken by `capture.mjs` |
 | How the demo is built | `docs/architecture.md`: the diagram open, each other part folded |
 | Relay server | `apps/relay/README.md`: its first paragraphs, the Safety table, and the code blocks from "The app side" and "Use it as a template" |

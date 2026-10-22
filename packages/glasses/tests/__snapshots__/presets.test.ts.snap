@@ -1,0 +1,47 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`container boxes > match the snapshot for each preset 1`] = `
+{
+  "card": [
+    "text input 0,0 576x288 capture",
+    "text card 16,10 544x268",
+  ],
+  "cardFull": [
+    "text input 0,0 576x288 capture",
+    "text card 16,10 544x238",
+    "image bar 16,256 288x20",
+  ],
+  "image": [
+    "text input 0,0 576x288 capture",
+    "image image 216,72 144x144",
+  ],
+  "imageCaption": [
+    "text input 0,0 576x288 capture",
+    "image image 188,77 200x100",
+    "text caption 16,185 544x31",
+  ],
+  "list": [
+    "text input 0,0 576x288 capture",
+    "text title 16,6 544x31",
+    "text rows 16,45 544x216",
+  ],
+  "listBar": [
+    "text input 0,0 576x288 capture",
+    "text title 16,6 544x31",
+    "text rows 16,45 544x189",
+    "image bar 16,256 288x20",
+  ],
+  "value": [
+    "text input 0,0 576x288 capture",
+    "text label 16,95 544x31",
+    "text value 16,130 544x31",
+    "text note 16,165 544x58",
+  ],
+  "valueBar": [
+    "text input 0,0 576x288 capture",
+    "text label 16,95 544x31",
+    "text value 16,130 544x31",
+    "image bar 16,256 288x20",
+  ],
+}
+`;

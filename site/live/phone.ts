@@ -11,6 +11,7 @@ import {
 import shell from '@maticsh/phone/shell.css?inline'
 import host from './phone-host.css?inline'
 import { PARTS, type PartId } from './catalog.ts'
+import './screens.ts'
 
 // The shell styles :host beside :root, html and body, so it works as written inside a shadow root.
 const sheet = new CSSStyleSheet()

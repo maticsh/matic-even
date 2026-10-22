@@ -15,6 +15,9 @@ export const LIMITS = {
   containers: 12,
   textAndList: 8,
   images: 4,
+  imageMinSide: 20,
+  imageMaxWidth: 288,
+  imageMaxHeight: 144,
 } as const
 
 // Shown when a glyph is missing from the font. Keys must be missing glyphs, values must exist.

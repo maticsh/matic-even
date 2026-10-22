@@ -55,8 +55,9 @@ function checkSpec(spec: PageSpec): string[] {
     if (!c.name || utf8ByteLength(c.name) > LIMITS.containerNameBytes) issues.push(`name "${c.name}" must be 1-${LIMITS.containerNameBytes} bytes`)
     const { x, y, width, height } = c.box
     if (x < 0 || y < 0 || x + width > SCREEN.width || y + height > SCREEN.height) issues.push(`"${c.name}" is off screen`)
-    if (c.kind === 'image' && (width < 20 || width > 288 || height < 20 || height > 144)) {
-      issues.push(`image "${c.name}" must be 20-288 wide and 20-144 tall`)
+    const { imageMinSide: min, imageMaxWidth: maxW, imageMaxHeight: maxH } = LIMITS
+    if (c.kind === 'image' && (width < min || width > maxW || height < min || height > maxH)) {
+      issues.push(`image "${c.name}" must be ${min}-${maxW} wide and ${min}-${maxH} tall`)
     }
     if (c.kind === 'text') {
       for (const i of checkText(c.content, 'create')) issues.push(`text "${c.name}": ${JSON.stringify(i)}`)

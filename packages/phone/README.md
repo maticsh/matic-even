@@ -16,7 +16,8 @@ It ships ES modules with type declarations, and imports its stylesheets as CSS f
 
 | Export | Use it for |
 |---|---|
-| `mountFrame` | The page frame: the glasses preview pinned to the top, which shrinks to a strip as the page scrolls, the title, and the tabs. At 900 px and up the preview sits in a sticky left column |
+| `mountFrame`, `frameHtml`, `pinHeights`, `pinVars` | The page frame: the glasses preview pinned to the top, which shrinks to a strip as the page scrolls, the title, and the tabs. At 900 px and up the preview sits in a sticky left column. `frameHtml` is the same markup as a string, and `pinHeights` and `pinVars` drive the shrink from your own scroll handler |
+| `settingsScreen`, `listScreen`, `firstRunScreen` | Whole screens put together from these parts, as HTML strings: the preview over a card with a toggle row, a value row, a segmented control and a slider; the preview over check rows, an add row and the tab bar; an empty state with one ink button and a note |
 | `glassSvg`, `stripHtml`, `centreRows`, `barLine`, `gridPath`, `GLASS` | Drawing a list-shaped glasses screen (`GlassScreen`) at its real 576 x 288 shape, and the strip it shrinks to |
 | `tabBar`, `segmented`, `ICONS` | A bottom tab bar on the phone, and a segmented control for a choice of two to four things |
 | `card`, `heading` | A white card, and a section heading above it |

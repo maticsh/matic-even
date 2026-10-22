@@ -83,10 +83,12 @@ export function textLine(text, x, top) {
 export function wrap(text, width) {
   const lines = []
   for (const para of text.split('\n')) {
-    let line = ''
-    for (const word of para.split(' ')) {
-      const next = line ? `${line} ${word}` : word
-      if (line && textWidth(next) > width) { lines.push(line); line = word } else line = next
+    // Leading spaces are how text is centred on the glass (the firmware has no alignment), so they stay.
+    const lead = /^ */.exec(para)[0]
+    let line = lead
+    for (const word of para.slice(lead.length).split(' ')) {
+      const next = line.trim() ? `${line} ${word}` : line + word
+      if (line.trim() && textWidth(next) > width) { lines.push(line); line = word } else line = next
     }
     lines.push(line)
   }

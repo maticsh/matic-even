@@ -20,6 +20,7 @@ export {
   PageSpecError, buildPage, corner, strip, textUpgrade,
   type BuiltPage, type ContainerSpec, type ImageSpec, type ListSpec, type PageSpec, type Ref, type TextSpec,
 } from './domain/page.ts'
+export { cardPage, imagePage, listPage, valuePage, type BarSlot, type Preset } from './domain/presets.ts'
 
 // infra
 export type { GlassesBridge } from './infra/bridge.ts'

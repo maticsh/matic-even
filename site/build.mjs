@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url'
 import { Marked } from 'marked'
 import { build as vite, defaultClientConditions } from 'vite'
 import { LINE_HEIGHT } from '@maticsh/glasses'
-import { PARTS } from './live/catalog.ts'
+import { PARTS, SCREENS } from './live/catalog.ts'
 import { border, esc, gridPaths, outline, svg, textBox, textLine } from './lib/draw.mjs'
 import { checkHead, headTags, robotsTxt, sitemapXml } from './lib/seo.mjs'
 
@@ -288,6 +288,34 @@ const counts = {
 const sample = name => import(`./samples/${name}.ts`)
 const sampleCode = name => readFileSync(join(SITE, 'samples', `${name}.ts`), 'utf8').trim()
 
+const containersOf = ({ create }) => [...(create.textObject ?? []), ...(create.listObject ?? []), ...(create.imageObject ?? [])]
+  .sort((a, b) => a.zOrderIndex - b.zOrderIndex)
+
+/**
+ * A built page drawn where the glasses would draw it: each container outlined, its text in its box, and the grids
+ * the page sends after mount in theirs. A full-screen input layer with no text is left unoutlined.
+ */
+function drawPage(built, images, label) {
+  let body = ''
+  for (const c of containersOf(built)) {
+    const box = { x: c.xPosition, y: c.yPosition, width: c.width, height: c.height }
+    const layer = box.width === 576 && box.height === 288 && !(c.content ?? '').trim()
+    if (!layer) body += outline(box)
+    if ('content' in c) body += border(box, c) + textBox(c.content ?? '', box, { inset: (c.paddingLength ?? 0) + (c.borderWidth ?? 0) })
+    const img = images[c.containerName]
+    if (img) body += gridPaths(img, { x: box.x, y: box.y + Math.floor((box.height - img.h) / 2) })
+  }
+  return svg(576, 288, body, { label, cls: 'frame' })
+}
+
+/** The containers a page holds, as the page builder numbered them. */
+function containerTable(built) {
+  const kind = c => ('content' in c ? 'text' : 'itemContainer' in c ? 'list' : 'image')
+  const rows = containersOf(built).map(c => `<tr><td class="mono">${c.containerID}</td><td class="mono">${esc(c.containerName)}</td><td>${kind(c)}</td>`
+    + `<td class="mono">${c.xPosition}, ${c.yPosition}</td><td class="mono">${c.width} × ${c.height}</td><td>${c.isEventCapture ? 'yes' : ''}</td></tr>`).join('')
+  return `<div class="tw"><table class="mini"><thead><tr><th>id</th><th>name</th><th>kind</th><th>x, y</th><th>size</th><th>capture</th></tr></thead><tbody>${rows}</tbody></table></div>`
+}
+
 async function glassesSpecimens() {
   const ab = await sample('action-bar')
   const gl = await sample('glyphs')
@@ -314,22 +342,8 @@ async function glassesSpecimens() {
   }).join(''), { label: 'Text cut to two lines with an ellipsis, one line cut by pixels, and a line with text at both ends, each 288 px wide.', zoom: 1.5 })
 
   // The page builder's own output: the payload it built, drawn where the glasses would draw it.
-  const { create } = pg.page
-  const all = [...(create.textObject ?? []), ...(create.listObject ?? []), ...(create.imageObject ?? [])]
-    .sort((a, b) => a.zOrderIndex - b.zOrderIndex)
-  let body = ''
-  for (const c of all) {
-    const box = { x: c.xPosition, y: c.yPosition, width: c.width, height: c.height }
-    body += outline(box)
-    if ('content' in c) body += border(box, c) + textBox(c.content ?? '', box, { inset: (c.paddingLength ?? 0) + (c.borderWidth ?? 0) })
-    const img = pg.images[c.containerName]
-    if (img) body += gridPaths(img, { x: box.x, y: box.y + Math.floor((box.height - img.h) / 2) })
-  }
-  const page = svg(576, 288, body, { label: 'A page built by buildPage: a dot-matrix clock, the day, a note, a bordered box and an action bar.', cls: 'frame' })
-  const kind = c => ('content' in c ? 'text' : 'itemContainer' in c ? 'list' : 'image')
-  const rows = all.map(c => `<tr><td class="mono">${c.containerID}</td><td class="mono">${esc(c.containerName)}</td><td>${kind(c)}</td>`
-    + `<td class="mono">${c.xPosition}, ${c.yPosition}</td><td class="mono">${c.width} × ${c.height}</td><td>${c.isEventCapture ? 'yes' : ''}</td></tr>`).join('')
-  const table = `<div class="tw"><table class="mini"><thead><tr><th>id</th><th>name</th><th>kind</th><th>x, y</th><th>size</th><th>capture</th></tr></thead><tbody>${rows}</tbody></table></div>`
+  const page = drawPage(pg.page, pg.images, 'A page built by buildPage: a dot-matrix clock, the day, a note, a bordered box and an action bar.')
+  const table = containerTable(pg.page)
 
   return [
     { id: 'action-bar', title: 'Action bar in the pixel font', code: 'action-bar', pic: actionBar,
@@ -345,6 +359,43 @@ async function glassesSpecimens() {
       cap: 'buildPage output at 576 × 288, each container outlined.',
       use: 'a page as data. It assigns IDs, checks the limits, keeps exactly one capture container and re-attaches the menu on every rebuild.' },
   ]
+}
+
+// Assembled screens: the glasses presets drawn from their samples, and the phone recipes live
+
+/** The glasses page presets: each one's sample, what it is, and the findings it relies on. */
+const PRESETS = [
+  { id: 'list-page', title: 'List page', code: 'list-page', findings: [2, 21],
+    label: 'A list page: the title reading list, four rows with a pointer on the second, and an action bar at the foot.',
+    use: 'a title over rows of text, with a pointer on one row and an image slot for a bar at the foot.' },
+  { id: 'value-page', title: 'Value page', code: 'value-page', findings: [18, 2],
+    label: 'A value page: 4 min in the middle of the display, next train above it and a note below.',
+    use: 'one value in the middle of the display, with a label above it and a note below.' },
+  { id: 'card-page', title: 'Card page', code: 'card-page', findings: [2, 21],
+    label: 'A card page: a bordered box with the title stand-up, room 4, a body cut to fit, and a progress line.',
+    use: 'a bordered box with a title, a body cut to fit the box, and a progress line.' },
+  { id: 'image-page', title: 'Image page', code: 'image-page', findings: [3, 4],
+    label: 'An image page: a bar chart of the tide over 24 hours, with a caption under it.',
+    use: 'an image you draw, in front of a full-screen input layer, with a caption.' },
+]
+
+const findingTitles = new Map(findings.map(f => [f.n, plain(f.title)]))
+/** "Builds on H18: the display sits above the line of sight." One sentence per finding, each linked. */
+function buildsOn(ns) {
+  return ns.map(n => {
+    const title = findingTitles.get(n)
+    if (!title) throw new Error(`a preset builds on H${n}, which is not in docs/findings`)
+    return `<a href="#h${n}">H${n}</a>: ${esc(title[0].toLowerCase() + title.slice(1))}.`
+  }).join(' ')
+}
+
+async function presetSpecimens() {
+  const out = []
+  for (const p of PRESETS) {
+    const m = await sample(p.code)
+    out.push({ ...p, pic: drawPage(m.page, m.images, p.label), after: containerTable(m.page) })
+  }
+  return out
 }
 
 // Test tools: each sample run with Node, its output shown as printed
@@ -379,10 +430,11 @@ const PROMPTS = [
  * numbers and the headings all come from here. A subsection keeps the id it had before the page had sections.
  */
 const SECTIONS = [
-  { id: 'components', title: 'Components', lede: 'Three packages to build a G2 app from, shown working on this page, the demo app that puts them together, and a server for outside data.', subs: [
+  { id: 'components', title: 'Components', lede: 'Three packages to build a G2 app from, shown working on this page, whole screens built from their parts, the demo app that puts them together, and a server for outside data.', subs: [
     { id: 'glasses', title: 'Glasses UI', line: 'Action bars, glyphs, text fit and pages, drawn by the package.', count: `${primitives.glasses} exports`, html: glassesSection },
     { id: 'phone', title: 'Phone UI', line: 'The phone page\'s parts, live on this page.', count: `${PARTS.length} parts`, html: phoneSection },
     { id: 'tools', title: 'Test tools', line: 'A fake bridge, the manifest lint and the URL scan.', count: `${primitives.testing} exports`, html: toolsSection },
+    { id: 'screens', title: 'Assembled screens', line: 'Glasses page presets and phone page recipes, built from the parts above.', count: `${PRESETS.length} glasses · ${SCREENS.length} phone`, html: screensSection },
     { id: 'demo', title: 'The demo app', line: 'Checklist puts the parts together on the glasses and the phone. Copy it to start your own app.', count: 'apps/checklist', html: demoSection },
     { id: 'relay', title: 'Relay server', line: 'A small server your app can whitelist, to fetch everything else.', count: 'apps/relay', html: relaySection },
   ] },
@@ -569,6 +621,37 @@ function toolsSection() {
   return `<section id="tools" class="sub">
 ${head('tools', `@maticsh/testing · ${primitives.testing} exports`, lede)}
 ${items}
+</section>`
+}
+
+async function screensSection() {
+  const presets = (await presetSpecimens()).map(s => `<article class="spec" id="screens-${s.id}">
+  <figure class="pic"><div class="well full">${s.pic}</div><figcaption class="mono">buildPage output at 576 × 288, each container outlined. The input layer fills the screen behind.</figcaption>${s.after}</figure>
+  <div class="about"><h4>${esc(s.title)}</h4><p class="use">Use it for ${esc(s.use)}</p><p class="use builds">Builds on ${buildsOn(s.findings)}</p>${codeBlock(sampleCode(s.code), 'ts')}${sourceLink(`site/samples/${s.code}.ts`)}</div>
+</article>`).join('\n')
+  const phones = SCREENS.map(s => `<article class="screen" id="screens-${s.id}">
+  <h4>${esc(s.name)}</h4>
+  <div class="phv" data-screen="${s.id}" role="group" aria-label="${esc(s.name)}"></div>
+  <p class="said mono" data-said="screens-${s.id}" aria-live="polite"></p>
+  <p class="use">Use it for ${esc(s.use)}</p>
+  <p class="call mono">${esc(s.call)}</p>
+</article>`).join('\n')
+  return `<section id="screens" class="sub">
+${head('screens', '@maticsh/glasses · @maticsh/phone', `Whole screens put together from the parts above. Each one is a plain function that takes data. The glasses presets return what <code>buildPage</code> takes. The phone recipes return HTML, like the parts.`)}
+<div class="topic-group">
+  <div class="tg-head"><h4 id="screens-glasses">Glasses page presets</h4><p>Drawn by <code>@maticsh/glasses</code> when this page was built, from the code beside each picture. Each preset keeps one capture container, short names and the page limits, and cuts its text by pixels.</p></div>
+  <div class="specs">
+${presets}
+  </div>
+</div>
+<div class="topic-group">
+  <div class="tg-head"><h4 id="screens-phone">Phone page recipes</h4><p>Running on this page with <code>@maticsh/phone</code>'s own code and stylesheet, each in a box the size of a phone. Tap them, and scroll the list page.</p></div>
+  <noscript><p class="lede">The phone recipes need JavaScript.</p></noscript>
+  <div class="screens">
+${phones}
+  </div>
+</div>
+<p class="more-link">The presets are in <a href="${github('packages/glasses/src/domain/presets.ts')}">packages/glasses/src/domain/presets.ts</a>, and the recipes in <a href="${github('packages/phone/src/recipes.ts')}">packages/phone/src/recipes.ts</a>.</p>
 </section>`
 }
 

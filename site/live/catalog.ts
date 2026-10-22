@@ -36,3 +36,16 @@ export const PARTS: readonly PartInfo[] = [
   { id: 'note', name: 'Note', call: 'note(text)', live: false,
     use: 'one or two plain lines under a card: a limit, a fact, the privacy line.' },
 ]
+
+/** The phone page recipes on the page, in order, as the parts above: a name, the call, and what each one is. */
+export type ScreenId = 'settings' | 'list' | 'first-run'
+export type ScreenInfo = { id: ScreenId; name: string; call: string; use: string }
+
+export const SCREENS: readonly ScreenInfo[] = [
+  { id: 'settings', name: 'Settings page', call: 'settingsScreen({ title, screen, toggle, value, choice, slider, note })',
+    use: 'the preview at the top, then one card with a toggle row, a value row, a segmented control and a slider, then a note.' },
+  { id: 'list', name: 'List page', call: 'listScreen({ title, screen, items, acts, add, tabs })',
+    use: 'the preview pinned at the top, which shrinks to the strip as the list scrolls, check rows with Edit, a row to add an item, and the tab bar.' },
+  { id: 'first-run', name: 'First run', call: 'firstRunScreen({ title, empty, action, note })',
+    use: 'an empty state with one ink button under it, and a note.' },
+]
