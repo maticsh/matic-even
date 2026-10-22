@@ -1,9 +1,8 @@
 # matic even: Even Realities G2 field notes and toolkit
 
-Open-source toolkit and field notes for building Even Realities G2 glasses apps.
-TypeScript packages for the glasses and the phone ([`@maticsh/glasses`](packages/glasses/), [`@maticsh/phone`](packages/phone/), [`@maticsh/testing`](packages/testing/)), a demo app, skills for your AI, and findings measured on a real pair. The site is [even.matic.sh](https://even.matic.sh).
+Open-source toolkit and field notes for building Even Realities G2 glasses apps. The site is [even.matic.sh](https://even.matic.sh).
 
-We measured a pair of Even Realities G2 glasses. This repo holds what we found, and the parts to build a G2 app on them. Each finding states a measured claim and what it means for your app.
+We measured a pair of Even Realities G2 glasses. This repo holds what we found, and the parts to build a G2 app on them: TypeScript packages for the glasses, the phone and your tests ([`@maticsh/glasses`](packages/glasses/), [`@maticsh/phone`](packages/phone/), [`@maticsh/testing`](packages/testing/)), a demo app and skills for your AI. Each finding states a measured claim and what it means for your app.
 
 Measured by Matic (matic.sh).
 

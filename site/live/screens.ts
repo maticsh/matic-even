@@ -1,7 +1,6 @@
 /**
- * The phone page recipes on the page, live: @maticsh/phone's recipes draw each screen into a shadow root, in a box
- * the size of a phone. Each box scrolls on its own, and drives the pinned preview's shrink with the package's own
- * `pinHeights` and `pinVars`, as `mountFrame` does with the window.
+ * The phone recipes, live: each screen in a shadow root, in a phone-sized box that scrolls on its own and drives the
+ * preview's shrink with `pinHeights` and `pinVars`, as `mountFrame` does with the window.
  */
 import {
   centreRows, delegate, firstRunScreen, listScreen, pinHeights, pinVars, settingsScreen, showSliderValue,
@@ -11,9 +10,8 @@ import shell from '@maticsh/phone/shell.css?inline'
 import host from './screens-host.css?inline'
 import { SCREENS, type ScreenId } from './catalog.ts'
 
-// The shell's wide layout starts at a window width of 900 px. Each screen here is a phone at any window width, so
-// that layout never starts.
-// The bundler minifies the stylesheet, so the match allows for its spacing.
+// A screen here is a phone at any window width, so the shell's 900 px wide layout must never start.
+// The match allows for the minified stylesheet's spacing.
 const WIDE = /@media\s*\(min-width:\s*900px\)/g
 if (!WIDE.test(shell)) throw new Error('shell.css no longer has its 900 px media query')
 const sheet = new CSSStyleSheet()

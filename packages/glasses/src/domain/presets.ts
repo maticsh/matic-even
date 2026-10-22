@@ -1,11 +1,10 @@
 /**
- * Page presets: four assembled glasses pages, as data. Each one returns the spec that `buildPage` takes, the text in
- * each text container, and the grids to send once the page is up. They are built from `buildPage`, the `fit`
- * helpers, `glyphs` and the pixel font, so they keep the same limits.
+ * Page presets: four assembled glasses pages, as data, built from `buildPage`, the `fit` helpers, `glyphs` and the
+ * pixel font, so they keep the same limits.
  *
- * Every preset puts a full-screen text container with content ' ' first, as the one container that captures input.
- * The other containers sit in front of it. Text is cut and padded by pixels in the firmware font, and characters
- * the font lacks are swapped or dropped (`sanitize`), so the page builder never refuses a preset's text.
+ * Every preset puts a full-screen text container with content ' ' first, behind the others, as the one container
+ * that captures input. Text is cut and padded by pixels in the firmware font, and `sanitize` swaps or drops
+ * characters the font lacks, so the page builder never refuses a preset's text.
  */
 import { LIMITS, checkText, sanitize } from './budget.ts'
 import { LINE_HEIGHT, SCREEN, align, fitLines, inner, textWidth, truncate, type Box } from './fit.ts'
@@ -185,7 +184,7 @@ export function cardPage(o: { title: string; body: string; progress?: number; ba
   const title = truncate(oneLine(o.title), area.width)
   const room = total - 1 - (hasProgress ? 1 : 0)
   const raw = lines(o.body)
-  // The body is broken into lines here, as the firmware would wrap it, so the progress line's place is known.
+  // Wrap the body here as the firmware would, so the progress line's place is known.
   const body = room > 0 && raw ? wrapWords(fitLines(raw, area.width, room), area.width).slice(0, room) : []
   const out = [title, ...body]
   if (hasProgress) {

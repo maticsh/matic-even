@@ -1,6 +1,6 @@
 # How Checklist is built
 
-[apps/checklist](../apps/checklist/README.md) is the demo app. This page describes how its code fits together: the folders, how a gesture becomes a change, how the glasses and the phone draw, and how its state survives a restart. Every path is in `apps/checklist`.
+[apps/checklist](../apps/checklist/README.md) is the demo app. Every path below is in `apps/checklist`.
 
 ## The parts
 
@@ -53,7 +53,7 @@ Two things draw from that one model:
 - The glasses. `glassText` and `pageFor` in `src/app/layout.ts` turn the screen into text for each container, and the bar into a pixel-font image.
 - The phone preview. `src/infra/phone.ts` passes the same screen to `frame.preview` from `@maticsh/phone`.
 
-So the preview shows what the glasses show. `tests/phone.test.ts` checks that both pick the same bar words.
+The preview shows what the glasses show, and `tests/phone.test.ts` checks that both pick the same bar words.
 
 ## Input
 
@@ -74,9 +74,9 @@ The phone page calls the same app through its controls: `show`, `toggle`, `add`,
 
 - The first time, and when the alignment changes, it mounts a whole page with `ui.mount`. The page carries its text already.
 - Otherwise it sends the title, the line under it and the rows with `ui.text`.
-- The bar goes as an image with `ui.image`, once its PNG is encoded. Encodes can finish out of order, so only the newest bar is sent.
+- The bar goes as an image with `ui.image`, once its PNG is encoded. Encodes can finish out of order, so `paint` sends only the newest bar.
 
-`ui` is the renderer from `createRenderer` in `@maticsh/glasses`. It runs every write through one write queue, one at a time, each with a timeout. Per container the newest content wins, and it does not send text that has not changed.
+`ui` is the renderer from `createRenderer` in `@maticsh/glasses`. It runs every write through one write queue, one at a time, each with a timeout. Per container the newest content wins, and it skips text that has not changed.
 
 ## State
 
@@ -86,7 +86,7 @@ The phone page calls the same app through its controls: `show`, `toggle`, `add`,
 - Each foreground event is a checkpoint (`lc.onCheckpoint`). It runs the morning reset and flushes the store.
 - The exit event flushes the store again (`lc.onExit`).
 
-A cold start rebuilds everything from storage. `run` reads the stored state, catches up the morning reset, and paints. The renderer handles glasses that still hold a page from before the reload: if the startup page is refused, it rebuilds the page instead.
+A cold start rebuilds everything from storage. `run` reads the stored state, catches up the morning reset, and paints. The renderer handles glasses that still hold a page from before the reload: if the glasses refuse the startup page, it rebuilds the page.
 
 ## Tests
 

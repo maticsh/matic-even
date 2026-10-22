@@ -79,7 +79,7 @@ Use `*` only when your users add their own URLs, such as feeds they pick. It mak
 
 ### The key
 
-`RELAY_KEY` keeps casual callers out. It is not a secret: a key bundled into an app is readable by anyone who unpacks the app. Do not use it to protect anything that matters.
+`RELAY_KEY` keeps casual callers out. Anyone who unpacks the app can read a key bundled into it, so do not use it to protect anything that matters.
 
 ### Behind a proxy
 

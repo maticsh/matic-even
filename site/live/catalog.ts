@@ -43,9 +43,9 @@ export type ScreenInfo = { id: ScreenId; name: string; call: string; use: string
 
 export const SCREENS: readonly ScreenInfo[] = [
   { id: 'settings', name: 'Settings page', call: 'settingsScreen({ title, screen, toggle, value, choice, slider, note })',
-    use: 'the preview at the top, then one card with a toggle row, a value row, a segmented control and a slider, then a note.' },
+    use: 'an app\'s settings: a toggle row, a value row, a segmented control and a slider in one card under the preview, then a note.' },
   { id: 'list', name: 'List page', call: 'listScreen({ title, screen, items, acts, add, tabs })',
-    use: 'the preview pinned at the top, which shrinks to the strip as the list scrolls, check rows with Edit, a row to add an item, and the tab bar.' },
+    use: 'a list you tick and edit: check rows with Edit, a row to add an item and the tab bar, under a preview that shrinks to the strip as the list scrolls.' },
   { id: 'first-run', name: 'First run', call: 'firstRunScreen({ title, empty, action, note })',
-    use: 'an empty state with one ink button under it, and a note.' },
+    use: 'the first open, before there is anything to show: an empty state with one ink button under it, and a note.' },
 ]

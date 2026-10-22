@@ -1,8 +1,6 @@
 // Search and link-preview metadata for even.matic.sh: the <head> tags, the JSON-LD, robots.txt and sitemap.xml.
-// build.mjs passes in its URL constants, so each URL is written once. checkHead() runs on the built page and throws
-// on a missing tag, an image URL that is not absolute, or JSON-LD that does not parse.
-// The share images in assets/ (og.png, og-square.png and the PNG icons) come from site/og.mjs and are checked in.
-// No imports: site/og.mjs reads OG_IMAGE from here with plain Node.
+// build.mjs passes in its URL constants, so each URL is written once. site/og.mjs draws the share images.
+// Node built-ins only, so site/og.mjs can import OG_IMAGE from here with plain Node.
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
@@ -20,8 +18,8 @@ export const KEYWORDS = ['Even Realities', 'Even G2', 'Even Realities G2', 'smar
 /** The share card, drawn by site/og.mjs at this size. checkHead() reads the PNG's header to hold the two together. */
 export const OG_IMAGE = {
   path: 'assets/og.png', width: 1200, height: 630,
-  alt: 'matic even: facts measured on Even Realities G2, and the parts to build apps on them. '
-    + 'Beside it, a demo checklist as it shows on the glasses.',
+  alt: 'matic even: what we measured on Even Realities G2, and the parts to build apps on them. '
+    + 'Beside the line, the demo checklist as the glasses show it.',
 }
 const PAGE_GREY = '#ededed'
 

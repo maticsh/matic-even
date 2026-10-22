@@ -27,7 +27,7 @@ parse. Those tags and the sitemap use `SITE_URL`.
 
 `og.mjs` draws `assets/og.png` (1200 x 630, the link preview and GitHub's social preview), `assets/og-square.png`
 (1200 x 1200) and the PNG icons with Playwright, from an HTML card in the page's look and `assets/checklist.png`.
-The PNGs are checked in, so the build needs no browser. Run it when the title, the line or the frame changes, and
+The PNGs live in the repo, so the build needs no browser. Run it when the title, the line or the frame changes, and
 read the images before you commit them.
 
 ```sh
@@ -40,8 +40,8 @@ node site/og.mjs --font path/to/Inter-Regular.woff2   # closer to San Francisco 
 `build.mjs` is a Node script. `npm run build` runs it with `--conditions=@maticsh/source`, so Node loads the packages' TypeScript source rather than their `dist/`, and runs it as it is.
 
 The page has four numbered sections, each with subsections: 01 Components (glasses UI, phone UI, test tools, assembled
-screens, the demo app, the relay server), 02 Probe & findings (the probe app, findings, open questions, store review), 03 AI (skills, the
-Claude Code plugin) and 04 Get started (with AI, by hand, contribute). The outline is `SECTIONS` in `build.mjs`. The
+screens, the demo app, the relay server), 02 Probe & findings (the probe app, findings, open questions, store review),
+03 AI (skills, the Claude Code plugin) and 04 Get started (with AI, by hand, contribute). The outline is `SECTIONS` in `build.mjs`. The
 contents card, the top bar and every number come from it, and each subsection keeps the id it had before the page had
 sections.
 

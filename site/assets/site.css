@@ -56,7 +56,8 @@ main { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
 .toc h2 { font-size: 11px; font-weight: 400; letter-spacing: .14em; color: var(--quiet); }
 .toc ol { list-style: none; padding: 0; margin: 0; }
 .toc .toc-secs { margin-top: 12px; background: #fff; border-radius: 12px; padding: 26px 28px 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 48px; align-items: start; }
-.ts-h { display: grid; grid-template-columns: 30px minmax(0, 1fr); grid-template-areas: "n t"; column-gap: 12px; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid var(--ink); text-decoration: none; }
+.ts-h { position: relative; display: grid; grid-template-columns: 30px minmax(0, 1fr); grid-template-areas: "n t"; column-gap: 12px; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid var(--ink); text-decoration: none; }
+.ts-h::after { content: ""; position: absolute; inset: -7px 0 0; }
 .ts-h .t { grid-area: t; font-size: 21px; line-height: 1.25; letter-spacing: -0.01em; }
 .ts ol { padding-left: 42px; }
 .ts li { border-bottom: 1px solid #ececec; }
@@ -129,6 +130,7 @@ table.mini { font-size: 13px; }
 .phone-shot { margin: 0; }
 .phone-shot img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 14px; }
 .arch { margin-top: 56px; }
+.arch > h4 { margin-bottom: 12px; }
 .arch > .md { max-width: 46em; }
 .cols { margin-top: 40px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
 
@@ -320,5 +322,5 @@ html:not(.js) button.copy { display: none; }
 .app-list .c { grid-area: c; font-size: 11px; letter-spacing: .08em; color: var(--quiet); white-space: nowrap; align-self: center; }
 .app-list a:hover .t { text-decoration: underline; text-decoration-thickness: 1px; }
 
-/* The relay's code samples wrap in their column instead of scrolling sideways. The architecture diagram does not wrap. */
+/* The relay's code samples wrap in their column. Scoped to #relay so the architecture diagram keeps its lines. */
 #relay pre.code { white-space: pre-wrap; overflow-wrap: anywhere; }

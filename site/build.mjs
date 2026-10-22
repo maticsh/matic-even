@@ -430,13 +430,13 @@ const PROMPTS = [
  * numbers and the headings all come from here. A subsection keeps the id it had before the page had sections.
  */
 const SECTIONS = [
-  { id: 'components', title: 'Components', lede: 'Three packages to build a G2 app from, shown working on this page, whole screens built from their parts, the demo app that puts them together, and a server for outside data.', subs: [
+  { id: 'components', title: 'Components', lede: 'Three packages to build a G2 app from, shown working on this page. Whole screens built from their parts, the demo app that puts them together, and a server for outside data.', subs: [
     { id: 'glasses', title: 'Glasses UI', line: 'Action bars, glyphs, text fit and pages, drawn by the package.', count: `${primitives.glasses} exports`, html: glassesSection },
     { id: 'phone', title: 'Phone UI', line: 'The phone page\'s parts, live on this page.', count: `${PARTS.length} parts`, html: phoneSection },
     { id: 'tools', title: 'Test tools', line: 'A fake bridge, the manifest lint and the URL scan.', count: `${primitives.testing} exports`, html: toolsSection },
-    { id: 'screens', title: 'Assembled screens', line: 'Glasses page presets and phone page recipes, built from the parts above.', count: `${PRESETS.length} glasses · ${SCREENS.length} phone`, html: screensSection },
+    { id: 'screens', title: 'Assembled screens', line: 'Glasses page presets and phone page recipes, built from the parts above.', count: `${PRESETS.length + SCREENS.length} screens`, html: screensSection },
     { id: 'demo', title: 'The demo app', line: 'Checklist puts the parts together on the glasses and the phone. Copy it to start your own app.', count: 'apps/checklist', html: demoSection },
-    { id: 'relay', title: 'Relay server', line: 'A small server your app can whitelist, to fetch everything else.', count: 'apps/relay', html: relaySection },
+    { id: 'relay', title: 'Relay server', line: 'Your app whitelists this one server, and it fetches everything else.', count: 'apps/relay', html: relaySection },
   ] },
   { id: 'research', title: 'Probe & findings', lede: 'How we measure the G2 with our probe app, and what store review taught us.', subs: [
     { id: 'probe', title: 'The probe app', line: 'The app we measure with.', count: `v${probePkg.version}`, html: probeSection },
@@ -594,7 +594,7 @@ function relaySection() {
   if (!safety || !manifest || !call || !degit) throw new Error(`${src}: the site needs the Safety table, the app side's json and ts blocks, and the degit line`)
   const intro = relayDoc.head.filter(t => t.type === 'paragraph')
   return `<section id="relay" class="sub">
-${head('relay', 'apps/relay · node 24 · no dependencies')}
+${head('relay', 'apps/relay · node 24')}
 <div class="md lede-md">${render(intro, src, 'relay')}</div>
 <div class="cols">
   <div class="md"><h4 id="relay-safety">Safety, on by default</h4>${render([safety], src, 'relay', 3)}</div>
@@ -605,7 +605,7 @@ ${head('relay', 'apps/relay · node 24 · no dependencies')}
     <h4 id="relay-use-it-as-a-template">Use it as a template</h4>${codeBlock(degit.text, 'sh')}
   </div>
 </div>
-<p class="more-link">The routes, the settings, open mode, the key, the cache and how to deploy it: <a href="${github(src)}">apps/relay/README.md</a>.</p>
+<p class="more-link">The routes, the settings, the allowlist, the key, the cache and how to deploy it: <a href="${github(src)}">apps/relay/README.md</a>.</p>
 </section>`
 }
 
@@ -637,9 +637,9 @@ async function screensSection() {
   <p class="call mono">${esc(s.call)}</p>
 </article>`).join('\n')
   return `<section id="screens" class="sub">
-${head('screens', '@maticsh/glasses · @maticsh/phone', `Whole screens put together from the parts above. Each one is a plain function that takes data. The glasses presets return what <code>buildPage</code> takes. The phone recipes return HTML, like the parts.`)}
+${head('screens', '@maticsh/glasses · @maticsh/phone', `Whole screens put together from the parts above, as plain functions that take data. A glasses preset returns what <code>buildPage</code> takes, and a phone recipe returns HTML like the parts do.`)}
 <div class="topic-group">
-  <div class="tg-head"><h4 id="screens-glasses">Glasses page presets</h4><p>Drawn by <code>@maticsh/glasses</code> when this page was built, from the code beside each picture. Each preset keeps one capture container, short names and the page limits, and cuts its text by pixels.</p></div>
+  <div class="tg-head"><h4 id="screens-glasses">Glasses page presets</h4><p>Drawn by <code>@maticsh/glasses</code> when this page was built, from the code beside each picture. A preset keeps one capture container, short names and the page limits, and cuts its text by pixels.</p></div>
   <div class="specs">
 ${presets}
   </div>
@@ -959,7 +959,7 @@ function appsSection() {
   const rows = APPS.map(a => `<li><a href="${HUB}${a.id}" target="_blank" rel="noopener"><span class="t">${esc(a.name)}</span><span class="d">${esc(a.line)}</span><span class="c mono">on even hub ↗</span></a></li>`).join('\n    ')
   return `<section id="apps" class="sec apps" aria-labelledby="apps-title">
   <div class="sh"><h2 id="apps-title"><a href="#apps">Apps by Matic</a></h2><p class="k">${APPS.length} on even hub</p></div>
-  <p class="lede">Our own apps for Even Realities G2, built on the same parts. Find them on Even Hub.</p>
+  <p class="lede">Our own apps for Even Realities G2, built on the same parts.</p>
   <ul class="app-list">
     ${rows}
   </ul>

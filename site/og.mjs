@@ -54,7 +54,7 @@ const labels = size => `<p class="labels" style="font-size:${size}px;padding-bot
   <span class="site"><img src="${icon}" width="${size * 1.5}" height="${size * 1.5}" alt="" style="margin-right:${size * 0.75}px">even.matic.sh</span>
   <span>open source&nbsp;&nbsp;·&nbsp;&nbsp;MIT</span></p>`
 const title = 'matic even'
-const line = 'Facts measured on Even&nbsp;Realities&nbsp;G2, and the parts to build apps on them'
+const line = 'What we measured on Even&nbsp;Realities&nbsp;G2, and the parts to build apps on them'
 
 /** 1200 x 630: the title across the top, the line bottom left, the frame bottom right. */
 const wide = `<div class="card" style="width:1200px;height:630px;padding:56px 64px">

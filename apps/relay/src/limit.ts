@@ -1,7 +1,6 @@
 /**
  * Requests per client per minute, as a token bucket: each client holds up to `perMinute` tokens, a
- * request spends one, and tokens come back evenly over the minute. A burst up to the limit is fine;
- * a steady stream above it is not.
+ * request spends one, and tokens come back evenly over the minute, so a client can burst up to the limit.
  */
 export type Limiter = ReturnType<typeof createLimiter>
 

@@ -1,7 +1,6 @@
 /*
- * The page's own additions to @maticsh/phone's shell.css, inside each recipe's shadow root. The shell is written for
- * a whole phone page that scrolls the window. Here each screen scrolls inside a box the size of a phone, so the box
- * is the scroller, the tab bar sticks to its foot, and the page's height is the box's. The page has no motion.
+ * Additions to @maticsh/phone's shell.css inside each recipe's shadow root. The phone-sized box scrolls in place of
+ * the window, so the tab bar sticks to its foot and the page's height is the box's. No motion.
  */
 :host { display: block; height: 100%; padding-bottom: 0; }
 *, *::before, *::after { transition: none !important; animation: none !important; }

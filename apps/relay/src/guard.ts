@@ -1,8 +1,7 @@
 /**
  * What the relay may fetch: the URL's scheme, port and host, and the address the host resolves to.
- * The address check runs inside the socket's DNS lookup, so the address that is checked is the address
- * that is dialled. A name that resolves to a public address for the check and a private one for the
- * connect (DNS rebinding) cannot get past.
+ * The address check runs inside the socket's DNS lookup, so the checked address is the dialled one and
+ * DNS rebinding cannot swap in a private address after the check.
  */
 import { BlockList, isIP, type LookupFunction } from 'node:net'
 
