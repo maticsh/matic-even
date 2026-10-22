@@ -312,3 +312,6 @@ html:not(.js) button.copy { display: none; }
 .app-list .d { grid-area: d; font-size: 15px; color: var(--quiet); }
 .app-list .c { grid-area: c; font-size: 11px; letter-spacing: .08em; color: var(--quiet); white-space: nowrap; align-self: center; }
 .app-list a:hover .t { text-decoration: underline; text-decoration-thickness: 1px; }
+
+/* The relay's code samples wrap in their column instead of scrolling sideways. The architecture diagram does not wrap. */
+#relay pre.code { white-space: pre-wrap; overflow-wrap: anywhere; }
