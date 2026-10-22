@@ -28,7 +28,9 @@ for (const name of PACKAGES) {
   const json = execFileSync('npm', ['pack', '--dry-run', '--json', '--ignore-scripts', '--workspace', dir], {
     cwd: ROOT, encoding: 'utf8', shell: process.platform === 'win32',
   })
-  const [pack] = JSON.parse(json)
+  // npm 11 returns a list of packs; npm 12 returns an object keyed by package name.
+  const parsed = JSON.parse(json)
+  const pack = Array.isArray(parsed) ? parsed[0] : Object.values(parsed)[0]
   const files = pack.files.map(f => f.path)
   const problems = [
     ...[...targets(manifest), 'README.md', 'LICENSE'].filter(f => !files.includes(f)).map(f => `missing ${f}`),
