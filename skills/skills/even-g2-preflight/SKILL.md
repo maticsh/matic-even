@@ -82,6 +82,7 @@ Each issue has `level`, `field` and `message`.
 | `name` | Not 1 to 20 characters, or it contains "Even" in any case. Review rejects that name. |
 | `version` | Not `x.y.z`. No `v`, no suffix. |
 | `entrypoint`, `min_sdk_version` | Missing. |
+| `min_sdk_version` | Below the store floor, `0.0.14`. `evenhub pack` 0.2.0 accepts it; review does not. |
 | `min_sdk_version` (warning) | Differs from the installed SDK. |
 | `min_app_version` (warning) | Present. Leave it out. The CLI stamps it from `--sdk-ver`. |
 | `permissions[i]` | Unknown name, or `desc` not 1 to 300 characters. |

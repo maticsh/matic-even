@@ -38,5 +38,6 @@ It checks, among other things:
 - `package_id` is lowercase reverse-DNS with 2 or more segments.
 - `name` is 1 to 20 characters. Review rejects a name that holds "Even" in any case, per Even's submission docs.
 - `version` is `x.y.z` with no prefix or suffix.
+- `min_sdk_version` is `0.0.14` or later. Review rejects anything older, per Even's submission docs; `evenhub pack` 0.2.0 packs it.
 - Each network whitelist entry is a bare `https://` or `wss://` origin, with no path and no wildcard.
 - Every declared permission is used, and every used permission is declared. Review flags a permission you declare and do not use.

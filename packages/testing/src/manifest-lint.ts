@@ -7,7 +7,25 @@ export type ManifestIssue = { level: 'error' | 'warning'; field: string; message
 const PERMISSIONS = ['network', 'location', 'g2-microphone', 'phone-microphone', 'album', 'camera']
 const LANGUAGES = ['en', 'de', 'fr', 'es', 'it', 'zh', 'ja', 'ko']
 
+// The lowest min_sdk_version review accepts (Even Hub docs: app submission, "Current SDK floor").
+// evenhub pack 0.2.0 does not check it.
+const MIN_SDK_FLOOR = '0.0.14'
+
 const isObj = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v)
+
+// x.y.z with an optional -prerelease and +build, as semver writes them.
+const SEMVER = /^(\d+)\.(\d+)\.(\d+)(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$/
+
+// True when version sorts before the floor release. Spellings that are not semver are not compared.
+const belowFloor = (version: string, floor: string) => {
+  const v = SEMVER.exec(version)
+  const f = SEMVER.exec(floor)
+  if (!v || !f) return false
+  for (let i = 1; i <= 3; i++) {
+    if (Number(v[i]) !== Number(f[i])) return Number(v[i]) < Number(f[i])
+  }
+  return v[4] !== undefined // 0.0.14-rc.1 comes before 0.0.14
+}
 
 export function lintManifest(
   manifest: unknown,
@@ -32,8 +50,13 @@ export function lintManifest(
   if (typeof m.entrypoint !== 'string' || !m.entrypoint) err('entrypoint', 'required')
 
   if (typeof m.min_sdk_version !== 'string') err('min_sdk_version', 'required')
-  else if (opts.sdkVersion && m.min_sdk_version !== opts.sdkVersion) {
-    warn('min_sdk_version', `is ${m.min_sdk_version} but the installed SDK is ${opts.sdkVersion}`)
+  else {
+    if (belowFloor(m.min_sdk_version, MIN_SDK_FLOOR)) {
+      err('min_sdk_version', `is ${m.min_sdk_version}; review rejects anything below ${MIN_SDK_FLOOR}`)
+    }
+    if (opts.sdkVersion && m.min_sdk_version !== opts.sdkVersion) {
+      warn('min_sdk_version', `is ${m.min_sdk_version} but the installed SDK is ${opts.sdkVersion}`)
+    }
   }
   if ('min_app_version' in m) warn('min_app_version', 'leave it out; the CLI stamps it from the SDK')
 

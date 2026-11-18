@@ -99,6 +99,13 @@ describe('lintManifest', () => {
     expect(issues.some(i => i.message.includes('"camera" is declared but unused'))).toBe(true)
   })
 
+  it('rejects a min_sdk_version below the store floor', () => {
+    const sdk = (v: string, opts = {}) => lintManifest({ ...good, min_sdk_version: v }, opts).map(i => `${i.level}:${i.field}`)
+    for (const v of ['0.0.10', '0.0.13', '0.0.14-rc.1']) expect(sdk(v)).toEqual(['error:min_sdk_version'])
+    for (const v of ['0.0.14', '0.0.14+build.1', '0.0.15-rc.1', '0.1.0', '1.0.0']) expect(sdk(v)).toEqual([])
+    expect(sdk('0.0.10', { sdkVersion: '0.0.16' })).toEqual(['error:min_sdk_version', 'warning:min_sdk_version'])
+  })
+
   it('rejects "even" in any case, and warns on an SDK mismatch', () => {
     const issues = lintManifest({ ...good, name: 'Seven Trees', min_sdk_version: '0.0.15' }, { sdkVersion: '0.0.16' })
     expect(issues.map(i => `${i.level}:${i.field}`)).toEqual(['error:name', 'warning:min_sdk_version'])

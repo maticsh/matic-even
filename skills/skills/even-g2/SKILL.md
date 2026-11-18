@@ -271,7 +271,8 @@ Never flatten it to `e.sysEvent?.eventType ?? CLICK`. That reads a tap on every 
 - `name`: max 20 chars. A name that contains "Even" in any case is rejected at review. The templates'
   default names break that rule, so rename them after `degit`.
 - `version`: `x.y.z`, no `v`, no suffix. `edition`: `"202601"`.
-- `min_sdk_version`: required. Set it to the installed SDK. Bump it only when you use a newer API.
+- `min_sdk_version`: required, `0.0.14` or later: review rejects anything older, and `evenhub pack`
+  0.2.0 does not check it. Set it to the installed SDK. Bump it only when you use a newer API.
 - `min_app_version`: leave it out. The CLI (0.1.14+) stamps it from the SDK. Pass
   `--sdk-ver <installed>` to `evenhub pack`, because without it the CLI uses the latest SDK on npm.
 - `permissions`: an array of `{ name, desc (1-300 chars), whitelist? }`. Names: `network`, `location`,
